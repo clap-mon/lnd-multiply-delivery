@@ -1,0 +1,31 @@
+{
+  "name": "luckypang-lnd-multiply",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test:quiz": "node --experimental-strip-types scripts/verify-quiz-engine.mjs",
+    "test:battle": "node --experimental-strip-types scripts/verify-battle-engine.mjs",
+    "test:dialogue": "node --experimental-strip-types scripts/verify-dialogue-checks.mjs",
+    "test:titles": "node --experimental-strip-types scripts/verify-title-progress.mjs",
+    "test:tower": "node --experimental-strip-types scripts/verify-tower-run.mjs",
+    "simulate:tower": "node --experimental-strip-types scripts/simulate-tower-balance.mjs"
+  },
+  "dependencies": {
+    "next": "16.3.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.2",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,622 @@
+:root { --ink:#17152a; --paper:#fff8dc; --cream:#fff4c4; --lime:#a9ff53; --pink:#ff69ad; --blue:#59d9ff; --line:3px solid var(--ink); }
+* { box-sizing:border-box; }
+html,body { margin:0; min-height:100%; overflow-x:hidden; background:#090a1c; color:var(--ink); font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif; }
+button { font:inherit; color:inherit; cursor:pointer; }
+button:disabled { cursor:not-allowed; }
+
+/* 게임의 모든 조작 버튼에 공통 반응을 준다. 카드·메뉴·선택지 모두 같은 손맛을 유지한다. */
+button:not(:disabled) {
+  position:relative;
+  isolation:isolate;
+  transition:translate .12s ease, transform .12s ease, filter .12s ease, box-shadow .12s ease, outline-color .12s ease;
+}
+
+.tower-start{width:100%;border:2px solid var(--ink);background:linear-gradient(135deg,#2a2454,#6a50ef);color:#fff;padding:14px 16px;text-align:left;box-shadow:4px 4px 0 var(--ink);display:grid;gap:4px}.tower-start b{font-size:16px}.tower-start small{color:#e5ddff}.tower-start:disabled{background:#77738a;box-shadow:none;opacity:.65}
+button:not(:disabled):hover {
+  filter:brightness(1.06) saturate(1.08);
+}
+button:not(:disabled):active {
+  translate:0 3px;
+  filter:brightness(.93) saturate(1.14);
+  box-shadow:1px 1px 0 #17152a !important;
+  transition-duration:.04s;
+}
+button:not(:disabled):active::before {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:8%;
+  border-radius:inherit;
+  background:rgb(255 255 255 / .55);
+  animation:button-hit .2s ease-out;
+  pointer-events:none;
+}
+button:focus-visible {
+  outline:3px solid #59d9ff;
+  outline-offset:3px;
+}
+@keyframes button-hit {
+  from { opacity:.9; scale:.72; }
+  to { opacity:0; scale:1.14; }
+}
+.landing-page,.setup-page,.result-page,.ending-page { min-height:100vh; }
+.landing-page { position:relative; overflow:hidden; min-height:100vh; display:grid; place-items:center; padding:24px clamp(18px,5vw,72px); color:#fff; background:radial-gradient(circle at 77% 18%,#3f33a4 0,transparent 36%),linear-gradient(135deg,#0b0922,#121642 58%,#15102f); }
+.pixel-grid { position:absolute; inset:0; opacity:.12; background-image:linear-gradient(#8b80ff33 1px,transparent 1px),linear-gradient(90deg,#8b80ff33 1px,transparent 1px); background-size:28px 28px; }
+.hero-card { position:relative; z-index:1; width:min(1280px,100%); min-height:620px; border:4px solid #17152a; border-radius:24px; overflow:hidden; display:grid; grid-template-columns:.9fr 1.1fr; background:var(--paper); color:var(--ink); box-shadow:14px 14px 0 #05050e; }
+.hero-copy { display:flex; flex-direction:column; justify-content:center; padding:clamp(34px,5vw,76px); z-index:2; }.eyebrow{font-size:13px;font-weight:1000;letter-spacing:.12em;color:#6a50ef;text-transform:uppercase}.hero-copy h1{font-size:clamp(38px,4.4vw,68px);line-height:1.04;margin:18px 0 24px;letter-spacing:-.065em}.hero-copy h1 em{font-style:normal;color:#6a50ef}.hero-title>p:not(.eyebrow){max-width:510px;font-size:18px;line-height:1.65;font-weight:650}.primary-button,.setup-summary>button,.result-actions button,.ending-page button{border:var(--line);background:var(--lime);padding:16px 24px;font-weight:1000;box-shadow:5px 5px 0 var(--ink);border-radius:8px}.primary-button b{margin-left:32px}.landing-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.guide-button{border:var(--line);border-radius:8px;background:#fff;padding:16px 22px;color:var(--ink);font-weight:1000;box-shadow:5px 5px 0 var(--ink)}.hero-art{position:relative;min-height:410px;background:#211b61;overflow:hidden}.hero-art img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}.landing-guide-backdrop{position:fixed;z-index:50;inset:0;display:grid;place-items:center;padding:20px;background:#050719b8;backdrop-filter:blur(7px)}.landing-guide{position:relative;width:min(550px,100%);border:var(--line);background:var(--paper);color:var(--ink);padding:30px;box-shadow:10px 10px 0 #05050e}.landing-guide h2{margin:8px 0 20px;font-size:30px}.landing-guide ol{display:grid;gap:10px;margin:0 0 22px;padding:0;list-style:none}.landing-guide li{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;border:2px solid #17152a;background:#fff;padding:10px}.landing-guide li>b{display:grid;place-items:center;width:30px;height:30px;background:#6a50ef;color:#fff}.landing-guide li strong,.landing-guide li span{display:block}.landing-guide li strong{margin-bottom:3px}.landing-guide li span{font-size:13px;line-height:1.4}.guide-close{position:absolute;top:13px;right:13px;width:34px;height:34px;border:2px solid var(--ink);background:#fff;font-size:25px;line-height:1}.guide-confirm{width:100%;border:var(--line);background:var(--lime);padding:13px;font-weight:1000;box-shadow:4px 4px 0 var(--ink)}
+.setup-page { padding:22px; background:linear-gradient(135deg,#6b55e9,#9180ff); }.setup-shell{max-width:1120px;margin:auto;background:#f6edc8;border:var(--line);box-shadow:10px 10px 0 var(--ink);border-radius:18px;overflow:hidden}.topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:#17152a;color:#fff}.topbar button{background:transparent;border:1px solid #ffffff44;color:#fff;padding:8px 12px}.topbar div{text-align:center}.topbar span{font-size:10px;color:var(--lime);font-weight:900;letter-spacing:.16em}.topbar h1{font-size:22px;margin:2px}.topbar i{font-style:normal;font-size:12px}.setup-block{padding:20px 28px;border-bottom:2px solid #17152a33}.section-title{display:flex;gap:12px;align-items:center;margin-bottom:14px}.section-title>b{display:grid;place-items:center;width:42px;height:42px;background:#17152a;color:var(--lime);border-radius:7px}.section-title h2{font-size:20px;margin:0}.section-title p{font-size:12px;margin:2px 0;color:#656078}.character-grid,.stage-grid{display:grid;gap:12px}.character-grid{grid-template-columns:repeat(3,1fr)}.character-grid button,.stage-grid button{position:relative;border:2px solid var(--ink);background:#fff9e2;border-radius:10px;padding:12px;box-shadow:3px 3px 0 #17152a;display:flex;align-items:center;gap:10px;text-align:left}.character-grid button.selected,.stage-grid button.selected{background:var(--lime);transform:translate(-2px,-2px);box-shadow:6px 6px 0 #17152a}.character-grid img{width:62px;height:62px;object-fit:contain;background:#d9d2ff;border-radius:8px}.character-grid strong,.stage-grid strong{display:block}.character-grid small,.stage-grid small{color:#625e72}.stage-grid{grid-template-columns:repeat(5,1fr)}.stage-grid button{display:block;min-height:94px}.stage-grid span{display:grid;place-items:center;width:28px;height:28px;background:#17152a;color:#fff;border-radius:5px;margin-bottom:9px;font-weight:900}.stage-grid .locked{opacity:.45;box-shadow:none}.setup-summary{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;background:#fff}.setup-summary>div{display:flex;align-items:center;gap:12px}.setup-summary>div>span{display:grid;place-items:center;width:48px;height:48px;border:var(--line);font-weight:1000}.setup-summary p{display:grid;margin:0}.setup-summary small{font-size:10px;color:#6a50ef;font-weight:900}.setup-summary em{font-size:12px;font-style:normal;color:#676273}
+.dialogue-page{min-height:100vh;background:#07091a;color:#fff;padding:14px;display:grid;grid-template-rows:auto 1fr auto;gap:12px}.dialogue-bar{max-width:1180px;width:100%;margin:auto;display:flex;justify-content:space-between;align-items:center}.dialogue-bar button{background:#181a35;border:1px solid #ffffff44;color:#fff;padding:9px 12px}.dialogue-bar div{text-align:center}.dialogue-bar span{display:block;font-size:10px;color:var(--stage);font-weight:900}.dialogue-bar em{font-style:normal;color:#c4c5e0;font-size:12px}.dialogue-world{position:relative;max-width:1180px;width:100%;min-height:430px;margin:auto;background-size:cover;background-position:center;border:3px solid #3b3e69;border-radius:16px;overflow:hidden}.world-hero,.world-boss{position:absolute;bottom:0;width:270px;height:270px;object-fit:contain;filter:drop-shadow(8px 12px 0 #0008)}.world-hero{left:8%}.world-boss{right:8%}.concept-banner{position:absolute;top:20px;left:50%;transform:translateX(-50%);background:#12152de8;border:2px solid var(--stage);padding:10px 18px;text-align:center;box-shadow:5px 5px 0 #000}.concept-banner small{display:block;color:var(--stage);font-weight:900}.dialogue-box{position:relative;max-width:1180px;width:100%;min-height:210px;margin:auto;background:var(--paper);color:var(--ink);border:var(--line);box-shadow:8px 8px 0 #000;border-radius:12px;display:grid;grid-template-columns:150px 1fr auto;gap:18px;padding:16px}.dialogue-box>img{width:140px;height:170px;object-fit:contain;background:#ded7ff;border:2px solid var(--ink);border-radius:8px}.dialogue-copy header{display:flex;gap:12px;align-items:center}.dialogue-copy header strong{font-size:20px}.dialogue-copy header span{font-size:9px;background:var(--stage);padding:4px 6px;font-weight:900}.dialogue-copy>p{font-size:18px;font-weight:750;line-height:1.55;margin:10px 0}.dialogue-choices{display:flex;flex-wrap:wrap;gap:8px}.dialogue-choices button{border:2px solid var(--ink);background:#fff;padding:9px 14px;border-radius:7px;font-weight:800}.dialogue-choices button.correct{background:var(--lime)}.feedback{margin-top:10px;padding:9px 12px;border-left:5px solid #44bc74;background:#ddf9e8;font-size:13px;font-weight:700}.feedback.wrong{border-color:#e44a69;background:#ffe0e6}.next-button{align-self:end;border:var(--line);background:var(--stage);padding:12px 15px;font-weight:1000;box-shadow:4px 4px 0 var(--ink)}.next-button:disabled{opacity:.35;box-shadow:none}
+.battle-page{min-height:100vh;color:#fff;background-size:cover;background-position:center;padding:12px 18px 24px}.battle-top{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:8px}.battle-top button{background:#171a34;color:#fff;border:1px solid #ffffff44;padding:8px 12px}.battle-top>div{text-align:center}.battle-top span{font-size:12px;font-weight:900;color:var(--stage)}.battle-top>div>div{display:flex;gap:4px;margin-top:5px}.battle-top i{display:block;width:28px;height:4px;background:#4b4d67}.battle-top i.active{background:var(--stage)}.fighters{position:relative;max-width:1000px;height:260px;margin:auto;display:flex;justify-content:space-between;align-items:end}.fighter{display:flex;align-items:end;gap:14px}.fighter.boss{flex-direction:row-reverse}.fighter img{width:230px;height:230px;object-fit:contain;filter:drop-shadow(8px 10px 0 #0008)}.fighter-name{width:210px;background:#111329dd;border:2px solid #ffffff55;padding:10px}.fighter-name span{font-size:9px;color:var(--stage);font-weight:900}.fighter-name strong{display:block;font-size:20px}.fighter-name>div{height:9px;background:#342e4d;margin:8px 0}.fighter-name i{display:block;height:100%;background:linear-gradient(90deg,var(--pink),#ffcf4a)}.fighter-name small{font-weight:900}.versus{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%) rotate(-8deg);font-size:32px;font-weight:1000;color:var(--stage);text-shadow:3px 3px #000}.quiz-panel{max-width:1180px;margin:auto;background:var(--paper);color:var(--ink);border:var(--line);box-shadow:8px 8px 0 #000;padding:18px 22px;border-radius:12px}.quiz-panel>header{display:flex;justify-content:space-between;align-items:start}.quiz-panel>header>div:first-child{display:grid}.quiz-panel>header span{font-size:11px;color:#6a50ef;font-weight:1000}.quiz-panel h1{font-size:clamp(20px,2.4vw,32px);margin:8px 0 4px}.quiz-panel>p{margin:0 0 14px;color:#696377;font-size:13px}.energy{display:flex;align-items:center;gap:8px;background:#17152a;color:#fff;padding:7px 10px;border:2px solid #17152a}.energy small{font-size:9px}.energy b{font-size:28px}.energy i{font-size:12px;font-style:normal;color:#9691b0}.energy.charged{background:var(--lime);color:var(--ink)}.answer-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.answer-cards button{min-height:115px;border:2px solid var(--ink);background:#fff;padding:10px;box-shadow:4px 4px 0 var(--ink);border-radius:8px;display:grid;align-content:space-between}.answer-cards button:hover:not(:disabled){transform:translateY(-4px)}.answer-cards small{font-size:9px;color:#6a50ef;font-weight:1000}.answer-cards strong{font-size:16px}.answer-cards span{font-size:10px;font-weight:1000;background:#17152a;color:#fff;padding:4px}.answer-cards .picked.correct{background:var(--lime)}.answer-cards .picked.wrong{background:#ff9aae}.answer-feedback{position:relative;margin-top:14px;padding:12px 160px 12px 14px;border:2px solid #45a96e;background:#e1f9e9;min-height:74px}.answer-feedback.wrong{border-color:#db4968;background:#ffe0e6}.answer-feedback p{margin:3px 0;font-weight:700}.answer-feedback small{display:block;color:#8b2941}.answer-feedback button{position:absolute;right:12px;top:12px;border:2px solid var(--ink);background:var(--lime);padding:12px;font-weight:900;box-shadow:3px 3px 0 var(--ink)}
+.result-page,.ending-page{display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 50% 20%,#342c7b,#0a0b20 65%);color:#fff;text-align:center}.result-page>section,.ending-page>section{max-width:620px;background:var(--paper);color:var(--ink);border:var(--line);box-shadow:10px 10px 0 #000;padding:40px;border-radius:16px}.result-icon{display:grid;place-items:center;width:70px;height:70px;margin:auto;background:var(--lime);border:var(--line);font-size:36px;box-shadow:5px 5px 0 var(--ink)}.result-page h1,.ending-page h1{font-size:38px;margin:12px}.result-page section>p:not(.eyebrow),.ending-page section>p:not(.eyebrow){line-height:1.7}.result-score{display:grid;margin:24px auto;width:180px;padding:12px;border:2px solid var(--ink);background:#fff}.result-score strong{font-size:32px}.result-actions{display:flex;justify-content:center;gap:12px}.result-actions .secondary{background:#fff}.ending-party{height:170px;display:flex;justify-content:center;align-items:end}.ending-party img{width:150px;height:150px;object-fit:contain;margin:0 -22px}.ending-title{display:block;background:#17152a;color:var(--lime);padding:12px;margin:24px}.ending-page small{display:block;margin-bottom:20px}
+.ending-dialogue{width:min(620px,100%)}.ending-dialogue-art{height:190px;display:flex;justify-content:center;align-items:end;overflow:hidden;margin:-25px -20px 14px}.ending-dialogue-art img{width:145px;height:165px;object-fit:contain;margin:0 -24px;filter:grayscale(.55) brightness(.72);opacity:.58;transition:filter .2s,opacity .2s,transform .2s}.ending-dialogue-art img.speaking{filter:none;opacity:1;transform:translateY(-8px) scale(1.06)}.ending-dialogue header{display:flex;align-items:center;gap:12px;text-align:left;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:12px 0}.ending-dialogue header>img{width:56px;height:56px;object-fit:contain;border:2px solid var(--ink);background:#fff}.ending-dialogue header small{margin:0;color:#6a50ef;font-weight:900}.ending-dialogue header h1{font-size:26px;margin:2px 0}.ending-dialogue>p:not(.eyebrow){min-height:82px;text-align:left;font-size:18px;font-weight:700}.ending-dialogue button{margin-top:8px}
+@media(max-width:800px){.hero-card{grid-template-columns:1fr}.hero-art{min-height:330px;grid-row:1}.hero-copy{padding:30px}.hero-copy h1{font-size:clamp(36px,10vw,52px)}.landing-actions>*{flex:1}.character-grid{grid-template-columns:1fr}.stage-grid{grid-template-columns:repeat(2,1fr)}.setup-summary,.landing-footer{gap:12px;align-items:stretch;flex-direction:column}.dialogue-world{min-height:320px}.world-hero,.world-boss{width:180px;height:180px}.dialogue-box{grid-template-columns:80px 1fr;padding:10px}.dialogue-box>img{width:80px;height:110px}.next-button{grid-column:2}.fighters{height:200px}.fighter img{width:140px;height:140px}.fighter-name{width:130px}.fighter-name strong{font-size:14px}.answer-cards{grid-template-columns:repeat(2,1fr)}.answer-cards button:last-child{grid-column:span 2}.answer-feedback{padding-right:12px;padding-bottom:64px}.answer-feedback button{top:auto;bottom:10px}.battle-top>strong{display:none}}
+
+/* v2 전투 구조를 적용한 v3 화면 */
+.difficulty-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.difficulty-grid button{border:2px solid var(--ink);background:#fff9e2;border-radius:10px;padding:12px;box-shadow:3px 3px 0 var(--ink);display:grid;justify-items:center;gap:5px}.difficulty-grid button.selected{background:var(--lime);transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}.difficulty-grid em{font-style:normal;border:2px solid var(--ink);border-radius:999px;padding:3px 9px;background:#ded7ff;font-size:10px;font-weight:1000}.difficulty-grid small{color:#625e72}.setup-summary img{width:54px;height:54px;object-fit:contain;background:#d9d2ff;border:2px solid var(--ink);border-radius:8px}
+.modal-backdrop,.quiz-modal-backdrop{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:rgb(3 6 24 / .72);backdrop-filter:blur(12px) brightness(.58);padding:32px}.confirm-modal{width:min(460px,94vw);background:var(--paper);border:var(--line);box-shadow:9px 9px 0 #000;padding:28px;text-align:center}.confirm-modal>span{font-size:42px}.confirm-modal h2{margin:8px}.confirm-modal>div{display:flex;justify-content:center;gap:10px;margin-top:20px}.confirm-modal button{border:2px solid var(--ink);background:#fff;padding:10px 16px;font-weight:900}.confirm-modal button:last-child{background:var(--pink)}
+.world-guide{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:210px;height:210px;object-fit:contain;filter:drop-shadow(8px 12px 0 #0008);transition:.2s}.world-hero,.world-boss{transition:.2s}.dialogue-world .dim{opacity:.34;filter:brightness(.55)}.dialogue-world .speaking{opacity:1;transform:translateY(-8px);filter:drop-shadow(0 0 18px var(--stage))}.dialogue-world .world-guide.speaking{transform:translateX(-50%) translateY(-8px)}.dialogue-copy header i{margin-left:auto;font-size:11px;font-style:normal;color:#777}.dialogue-hint{text-align:center;color:#9698bf;font-size:11px;margin:0}
+.battle-page{padding:10px clamp(10px,4vw,60px) 24px;background-position:center;background-size:cover}.combat-header{max-width:1420px;margin:auto;height:62px;border:3px solid #7f8fc6;background:#0e1537;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 18px;box-shadow:8px 8px 0 #050715}.combat-header>strong{color:var(--lime)}.combat-header>span{text-align:center;font-weight:900}.combat-header>button{justify-self:end;background:#294473;color:#fff;border:2px solid #c8d5ff;padding:9px 12px;font-weight:800}.combat-stats{max-width:1420px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr);border:3px solid #7f8fc6;border-top:0;background:#111a40}.combat-stats>div{padding:9px 14px;border-right:1px solid #7180b8}.combat-stats>div:last-child{border:0}.combat-stats span{display:block;font-size:10px;color:#9eafe8;font-weight:900}.combat-stats strong{font-size:19px}.battlefield{position:relative;max-width:1420px;height:430px;margin:auto;border:3px solid #7f8fc6;border-top:4px solid var(--pink);display:flex;justify-content:space-between;align-items:end;padding:15px 90px;background:repeating-linear-gradient(0deg,#111944bb 0,#111944bb 3px,#182153bb 3px,#182153bb 6px)}.battlefield .fighter{display:flex;flex-direction:column;gap:0;align-items:center}.battlefield .fighter.boss{flex-direction:column}.battlefield .fighter img{width:255px;height:255px}.battlefield .fighter-name{width:240px;text-align:center}.turn-energy{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);display:grid;justify-items:center;min-width:210px;background:#30345b;border:3px solid #626a99;padding:12px;box-shadow:7px 7px 0 #07091b}.turn-energy.active{background:var(--lime);color:var(--ink);border-color:var(--ink)}.turn-energy small{font-weight:900}.turn-energy strong{font-size:46px;line-height:1}.turn-energy i{font-size:15px;font-style:normal}.turn-energy span{font-size:11px;font-weight:900}.battle-message{max-width:720px;margin:-16px auto 10px;position:relative;z-index:2;text-align:center;background:#0b102d;border:3px solid var(--paper);box-shadow:5px 5px 0 #000;padding:9px 14px;font-weight:900}.action-panel{max-width:1420px;margin:auto;border:3px solid #7f8fc6;background:#0f1739;padding:16px 22px}.action-panel>header{display:flex;justify-content:space-between;align-items:center;gap:16px}.action-panel>header p{margin:0;color:var(--pink);font-size:11px;font-weight:1000;letter-spacing:.08em}.action-panel>header strong{font-size:15px}.action-panel>header>div:last-child{display:flex;gap:10px}.action-panel>header button{background:#fff1c9;border:3px solid #fff;padding:10px 13px;font-weight:1000;box-shadow:4px 4px 0 #050715}.action-panel>header button:first-child{background:#b22d67;color:#fff}.action-panel>header button:disabled{opacity:.4}.combat-hand{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;max-width:1160px;margin:18px auto 0}.combat-hand>button{position:relative;min-height:235px;border:4px solid var(--paper);box-shadow:6px 6px 0 #050715;color:#fff;padding:18px 12px 14px;display:grid;grid-template-rows:auto 1fr auto auto;align-items:center;text-align:center;overflow:hidden}.combat-hand>button:after{content:"";position:absolute;inset:48% -30% auto;height:65%;background:#0003;transform:rotate(-15deg);pointer-events:none}.combat-hand>button.coral{background:#f36b4d}.combat-hand>button.violet{background:#9c66d7}.combat-hand>button.orange{background:#ffad49}.combat-hand>button.cyan{background:#43bcd0}.combat-hand>button.green{background:#4dbb78}.combat-hand>button:disabled{filter:grayscale(.75);opacity:.5}.combat-hand .card-cost{position:absolute;top:10px;left:10px;z-index:1;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#0f1739;border:3px solid var(--paper);font-weight:1000}.combat-hand small{justify-self:end;font-weight:1000}.combat-hand i{position:relative;z-index:1;font-size:58px;font-style:normal}.combat-hand strong,.combat-hand em{position:relative;z-index:1}.combat-hand strong{font-size:19px}.combat-hand em{font-style:normal;font-size:11px;font-weight:750}
+.quiz-modal{width:min(760px,calc(100vw - 200px));max-height:calc(100vh - 150px);overflow:auto;background:var(--paper);color:var(--ink);border:4px solid var(--ink);box-shadow:12px 12px 0 var(--lime);padding:22px}.quiz-modal.long{width:min(860px,calc(100vw - 160px))}.quiz-modal>header{display:flex;justify-content:space-between;align-items:center}.quiz-modal>header p{margin:0;color:#af2c68}.quiz-modal>header strong{background:var(--lime);border:2px solid var(--ink);padding:6px 10px}.quiz-modal h1{text-align:center;font-size:clamp(23px,2.6vw,36px);line-height:1.2;margin:16px auto 8px;max-width:730px}.quiz-modal>p{text-align:center;margin:0 0 16px}.quiz-options{display:grid;gap:10px}.quiz-options.short{grid-template-columns:repeat(5,minmax(0,1fr))}.quiz-options.long{grid-template-columns:1fr}.quiz-options button{border:3px solid var(--ink);background:#fff7d9;padding:12px 14px;text-align:left;font-weight:900;line-height:1.35;box-shadow:3px 3px 0 #161731}.quiz-options.short button{min-height:72px;text-align:center;display:grid;place-items:center;font-size:clamp(20px,2vw,28px)}.quiz-options.long button{min-height:50px;font-size:clamp(14px,1.35vw,18px)}.quiz-options button.correct{background:var(--lime)}.quiz-options button.wrong{background:#ff9aae}.quiz-rule{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;text-align:left;border:2px solid var(--ink);background:#e4ecff;margin-top:14px;padding:9px;font-weight:800}.quiz-rule b{padding-right:8px;border-right:1px solid #7c8bb9;color:#354b82;font-size:11px;white-space:nowrap}.quiz-rule span{line-height:1.35;text-wrap:balance}.quiz-feedback{margin-top:12px;padding:10px 12px;border:2px solid #45a96e;background:#e1f9e9;min-height:72px}.quiz-feedback.wrong{border-color:#db4968;background:#ffe0e6}.quiz-feedback p{margin:4px 0;font-weight:750}.quiz-feedback small{display:block;color:#8b2941}.quiz-feedback em{display:block;margin-top:8px;font-style:normal;font-size:12px;font-weight:900;color:#52605c}.phase-banner{position:fixed;z-index:15;left:50%;top:50%;transform:translate(-50%,-50%);width:min(600px,90vw);background:var(--lime);color:var(--ink);border:4px solid var(--ink);box-shadow:10px 10px 0 #000;padding:30px;text-align:center}.phase-banner p{font-weight:1000;color:#b32964}.phase-banner button{border:3px solid var(--ink);background:#fff;padding:12px 18px;font-weight:1000;box-shadow:4px 4px 0 var(--ink)}
+@media(max-width:900px){.difficulty-grid{grid-template-columns:1fr}.combat-stats{grid-template-columns:repeat(3,1fr)}.battlefield{height:330px;padding:10px 20px}.battlefield .fighter img{width:170px;height:170px}.battlefield .fighter-name{width:160px}.turn-energy{min-width:150px}.combat-hand{grid-template-columns:repeat(2,1fr)}.combat-hand>button{min-height:190px}.combat-hand>button:last-child{grid-column:span 2}.action-panel>header{align-items:stretch;flex-direction:column}.world-guide{width:145px;height:145px}.quiz-modal,.quiz-modal.long{width:calc(100vw - 44px);max-height:calc(100vh - 56px);padding:18px}.quiz-options.short{grid-template-columns:repeat(2,1fr)}.quiz-options.short button:last-child{grid-column:span 2}.quiz-options.short button{min-height:64px;font-size:24px}.quiz-options.long button{font-size:15px}}
+
+/* 데스크톱에서는 전투 정보를 더 한 화면에 담고, 나머지 장면은 읽기 좋은 90% 밀도로 유지한다. */
+@media(min-width:901px){
+  .landing-page,.setup-page,.dialogue-page,.result-page,.ending-page{zoom:.9}
+}
+.concept-banner{top:18px;min-width:238px;padding:9px 22px 11px;background:linear-gradient(135deg,#111a40f2,#202b60ed);border:2px solid var(--stage);border-radius:3px;box-shadow:0 0 0 3px #080b20,0 0 18px color-mix(in srgb,var(--stage) 54%,transparent),6px 7px 0 #050715;clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px)}
+.concept-banner::before{content:"STAGE CORE";position:absolute;left:9px;top:8px;color:#dce6ff75;font-size:8px;font-weight:900;letter-spacing:.14em}
+.concept-banner small{margin-top:10px;color:var(--stage);font-size:10px;letter-spacing:.1em;text-shadow:0 0 10px color-mix(in srgb,var(--stage) 80%,transparent)}
+.concept-banner strong{display:block;font-size:18px;letter-spacing:-.02em;text-shadow:2px 2px 0 #060818}
+.action-panel>header>div:last-child button:last-child{background:#263762;color:#f4f7ff;border-color:#91a5df;box-shadow:4px 4px 0 #050715}
+.action-panel .redraw-button{background:#38435f;color:#f3f6ff;border-color:#9caad8;box-shadow:4px 4px 0 #050715}
+.combat-stats{display:grid}
+.combat-stats>div:nth-last-child(-n+2){display:none}
+.battlefield{margin:12px auto 0}
+.fighter-name>.hp-bar{height:9px;background:#342e4d;margin:8px 0}
+.fighter-name>.fighter-hp-row{height:auto;margin:0;display:flex;justify-content:center;align-items:center;gap:9px;background:transparent}
+.fighter-name .fighter-hp-row small{font-size:15px;color:#fff;white-space:nowrap}
+.fighter-stance{display:block;width:max-content;max-width:calc(100% - 12px);padding:4px 9px;border:2px solid #fff4cb;font-size:11px;font-weight:1000;line-height:1.15;letter-spacing:-.02em;box-shadow:3px 3px 0 #050715;text-align:center;white-space:nowrap}
+.hero-stance{position:absolute;z-index:8;top:-24px;left:50%;transform:translateX(-50%);background:#ffad49;color:#17152a}
+.fighter-name .boss-stance{margin:6px auto 0;background:#57caff;border-color:#d7f7ff;color:#0a1735;font-size:11px}
+.combat-stats>div small{display:block;margin-top:3px;color:#9eafe8;font-size:10px;font-weight:800}
+.combat-stats .combo-stat button{display:block;margin-top:4px;border:1px solid #d8ff9b;background:var(--lime);color:var(--ink);padding:2px 7px;font-size:10px;font-weight:1000;box-shadow:2px 2px 0 #050715}
+.combat-stats .bag-stat{padding:0;border-right:0}
+.bag-stat>button{width:100%;height:100%;min-height:62px;border:0;background:#111a40;color:#fff;padding:9px 14px;text-align:left;box-shadow:none}
+.bag-stat>button span{display:block;color:#9eafe8;font-size:10px;font-weight:900}
+.bag-stat>button strong{display:block;font-size:22px;line-height:1.25}
+.bag-stat>button b{display:inline-grid;place-items:center;width:20px;height:20px;margin-left:5px;border-radius:50%;background:var(--lime);color:var(--ink);font-size:13px}
+.bag-modal-backdrop{position:fixed;inset:0;z-index:30;display:grid;place-items:center;background:#03061899;backdrop-filter:blur(7px);padding:24px}
+.bag-modal{width:min(370px,92vw);border:3px solid #8fa5e4;background:#111a40;color:#fff;box-shadow:9px 9px 0 #050715;padding:28px;text-align:center}
+.bag-modal>span{display:grid;place-items:center;width:54px;height:54px;margin:auto;border:2px solid #9eafe8;border-radius:50%;background:#263762;font-size:28px}
+.bag-modal .eyebrow{margin:14px 0 2px;color:var(--lime)}
+.bag-modal h2{margin:0 0 8px;font-size:28px}.bag-modal p:not(.eyebrow){margin:0 0 8px;font-weight:900}.bag-modal small{display:block;color:#b9c5ee;line-height:1.5}.bag-modal button{margin-top:20px;border:2px solid #c8d5ff;background:#263762;color:#fff;padding:9px 22px;font-weight:900}
+.battlefield .fighter{position:relative}
+.battle-damage-pop{position:absolute;z-index:5;top:42px;left:50%;display:grid;gap:4px;min-width:max-content;transform:translateX(-50%);color:#fff6d0;text-align:center;text-shadow:3px 3px 0 #111326;animation:damage-pop .9s ease-out both;pointer-events:none}
+.battle-damage-pop strong{font-size:24px;line-height:1.1;font-weight:1000}.battle-damage-pop small{justify-self:center;border:2px solid #fff6d0;background:#17244bdd;padding:3px 7px;font-size:11px;font-weight:1000;text-shadow:none}
+.battle-damage-pop.physical strong{color:#ff8cbf}.battle-damage-pop.magic strong{color:#76e8ff}.battle-damage-pop.magic small{border-color:#76e8ff}
+@keyframes damage-pop{0%{opacity:0;transform:translate(-50%,18px) scale(.72)}22%,66%{opacity:1}100%{opacity:0;transform:translate(-50%,-42px) scale(1.08)}}
+.battlefield .fighter.boss.impact.physical-impact img{animation:boss-hit .42s steps(2,end)}
+.battlefield .fighter.boss.impact.magic-impact img{animation:boss-magic-hit .42s ease-out}
+.boss-impact-flash{position:absolute;z-index:4;pointer-events:none}
+.boss-impact-flash.physical{top:38px;left:12%;width:78%;height:10px;background:#fff7d8;box-shadow:0 0 16px #ff8cbf;transform:rotate(-35deg);animation:slash-flash .42s ease-out both}
+.boss-impact-flash.magic{top:30px;left:50%;width:105px;height:105px;border:5px solid #76e8ff;border-radius:50%;box-shadow:0 0 26px #a66bff,inset 0 0 24px #76e8ff;transform:translateX(-50%);animation:magic-burst .42s ease-out both}
+.battlefield .fighter.hero.player-effect::after{content:"";position:absolute;z-index:4;top:32px;left:50%;width:125px;height:125px;border:4px solid #62e8ff;border-radius:50%;box-shadow:0 0 24px #62e8ff;transform:translateX(-50%);pointer-events:none}
+.battlefield .fighter.hero.player-effect.guard::after,.battlefield .fighter.hero.player-effect.ward::after,.battlefield .fighter.hero.player-effect.heal::after{animation:shield-pulse .52s ease-out both}
+.battlefield .fighter.hero.player-effect.heal::after{border-color:#a9ff53;box-shadow:0 0 24px #a9ff53}
+.battlefield .fighter.hero.player-effect.dodge::after{border-color:#a9ff53;border-style:dashed;box-shadow:0 0 20px #a9ff53;animation:dodge-ring .52s ease-out both}
+.battlefield .fighter.hero.player-effect.dodge img{animation:dodge-step .52s ease-out both}
+.battlefield .fighter.boss.enemy-attacking img{animation:boss-charge .48s ease-out both}
+.battlefield .fighter.hero:has(.player-hit) img{animation:player-hit .82s ease-out .16s both}
+.battle-damage-pop.player-hit{top:68px;animation-delay:.16s}.battle-damage-pop.player-hit strong{color:#fff6d0}.battle-damage-pop.player-hit.physical strong{color:#ff9aae}.battle-damage-pop.player-hit.magic strong{color:#76e8ff}
+.battle-damage-pop.player-defense{top:60px;animation-delay:.16s}.battle-damage-pop.player-defense strong{color:#bafc70}.battle-damage-pop.self-hit{top:24px}.battle-damage-pop.self-hit strong{color:#ffcc4d}
+.fighter-name .fighter-title{display:block;color:#b9c5ee;font-size:11px;font-weight:900;letter-spacing:.04em}.battlefield .fighter.boss{position:relative}.fighter-art{position:relative;width:fit-content;line-height:0}.fighter-art .fighter-overlay-status{position:absolute;z-index:10;left:50%;bottom:8%;max-width:calc(100% - 8px);margin:0;padding:clamp(2px,.28vw,4px) clamp(4px,.4vw,7px);box-shadow:3px 3px 0 #050715;font-size:clamp(8px,.75vw,10px);line-height:1.15;pointer-events:none;transform:translateX(-50%);white-space:nowrap}.fighter-art .hero-stance-overlay{border-color:#fff4cb;background:#ffad49;color:#17152a}.fighter-art .boss-stance-overlay{border-color:#d7f7ff;background:#57caff;color:#0a1735}.fighter-name>.fighter-name-row{display:flex;height:auto;margin:3px 0 0;align-items:center;justify-content:center;min-width:0;background:transparent}.fighter-name-row>strong{min-width:0;margin:0;font-size:clamp(16px,1.35vw,20px);line-height:1.1;white-space:nowrap}.fighter-name .boss-next-intent{display:block;margin:4px 0 -2px;color:#d8ff9b;font-size:10px;font-weight:1000;white-space:nowrap}
+.battlefield .fighter.boss.boss-confused img{filter:grayscale(.65) saturate(.45) brightness(.9);animation:boss-confused-sway 1.1s ease-in-out infinite}
+.battlefield .fighter.boss.confusion-burst::before{content:"";position:absolute;z-index:6;top:22px;left:50%;width:128px;height:128px;border:6px solid #fff6d0;border-radius:50%;box-shadow:0 0 32px #ffda55,0 0 50px #a66bff;transform:translateX(-50%);animation:confusion-burst .52s ease-out both}
+.confusion-questions{position:absolute;z-index:7;top:18px;left:50%;width:142px;height:142px;transform:translateX(-50%);pointer-events:none}.confusion-questions b{position:absolute;left:50%;top:50%;color:#fff6d0;font-size:29px;text-shadow:3px 3px 0 #7a3b9f;animation:confusion-orbit 1.4s linear infinite}.confusion-questions b:nth-child(2){animation-delay:-.47s}.confusion-questions b:nth-child(3){animation-delay:-.94s}
+.wrong-pop{position:absolute;z-index:5;top:58px;left:50%;color:#fff6d0;font-size:34px;font-weight:1000;letter-spacing:9px;text-shadow:3px 3px 0 #a92b5b;transform:translateX(-50%);animation:wrong-pop 1.2s ease-out both}
+.quiz-modal-backdrop{animation:modal-backdrop-in .2s ease-out}.quiz-modal{animation:quiz-modal-in .22s cubic-bezier(.2,.9,.25,1.1) both}
+html.quiz-hit .quiz-modal-backdrop{display:none}
+html.enemy-turn .phase-banner{display:none}
+.combat-hand>button{animation:card-deal-in .52s cubic-bezier(.2,.9,.25,1.1) both}.combat-hand>button:nth-child(2){animation-delay:.04s}.combat-hand>button:nth-child(3){animation-delay:.08s}.combat-hand>button:nth-child(4){animation-delay:.12s}.combat-hand>button:nth-child(5){animation-delay:.16s}
+@keyframes boss-hit{0%,100%{transform:translateX(0)}25%{transform:translateX(-9px);filter:brightness(2.2) saturate(.35)}50%{transform:translateX(9px);filter:brightness(1.6)}75%{transform:translateX(-5px)}}
+@keyframes boss-magic-hit{0%{filter:brightness(1)}45%{filter:brightness(2.1) drop-shadow(0 0 18px #76e8ff);transform:scale(1.06)}100%{filter:brightness(1)}}
+@keyframes slash-flash{0%{opacity:0;scale:.35}28%{opacity:1}100%{opacity:0;scale:1.25}}
+@keyframes magic-burst{0%{opacity:0;scale:.35}35%{opacity:1}100%{opacity:0;scale:1.4}}
+@keyframes shield-pulse{0%{opacity:0;scale:.6}38%{opacity:1}100%{opacity:0;scale:1.2}}
+@keyframes dodge-ring{0%{opacity:0;scale:.6}38%{opacity:1}100%{opacity:0;scale:1.3;rotate:90deg}}
+@keyframes dodge-step{0%,100%{transform:translateX(0)}35%{transform:translateX(-28px);opacity:.35}70%{transform:translateX(8px)}}
+@keyframes boss-charge{0%,100%{transform:translateX(0)}48%{transform:translateX(-42px) scale(1.06)}}
+@keyframes player-hit{0%,100%{transform:translateX(0);filter:brightness(1)}20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}34%{filter:brightness(2.5) saturate(.25)}}
+@keyframes boss-confused-sway{0%,100%{transform:translateX(-5px)}50%{transform:translateX(5px)}}
+@keyframes confusion-burst{0%{opacity:0;scale:.25}35%{opacity:1;scale:1}100%{opacity:0;scale:1.55}}
+@keyframes confusion-orbit{from{transform:rotate(0deg) translateX(67px) rotate(0deg)}to{transform:rotate(360deg) translateX(67px) rotate(-360deg)}}
+@keyframes wrong-pop{0%{opacity:0;transform:translate(-50%,-8px)}35%{opacity:1}100%{opacity:0;transform:translate(-50%,-36px)}}
+@keyframes modal-backdrop-in{from{opacity:0}to{opacity:1}}@keyframes quiz-modal-in{from{opacity:0;transform:translateY(28px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes card-deal-in{from{opacity:0;transform:translateY(44px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+.battle-message{width:min(720px,calc(100% - 440px));min-height:25px;transform:translateY(-75px);line-height:1.45;text-wrap:balance}
+@media(max-width:900px){.battle-message{width:min(620px,calc(100% - 40px));transform:translateY(-50px)}.hero-stance{top:-18px;font-size:10px;padding:3px 7px}.fighter-name .boss-stance{font-size:10px}}
+.combat-hand>button:not(:disabled){transition:transform .14s ease,filter .14s ease,box-shadow .14s ease}.combat-hand>button:not(:disabled):hover{transform:translateY(-10px) rotate(-1deg);filter:brightness(1.08);box-shadow:8px 12px 0 #050715}.combat-hand>button:not(:disabled):active{animation:card-strike .34s ease-out}.battlefield .fighter.hero img{animation:hero-idle 2.4s ease-in-out infinite}.battlefield .fighter.boss img{animation:boss-idle 2.8s ease-in-out infinite}.turn-energy.active{animation:energy-pulse 1.1s ease-in-out infinite}.phase-banner{animation:enemy-arrival .38s ease-out}.quiz-options button.correct{animation:correct-flash .48s ease-out}.quiz-options button.wrong{animation:wrong-shake .42s ease-in-out}@keyframes hero-idle{50%{transform:translateY(-7px)}}@keyframes boss-idle{50%{transform:translateY(-10px) scale(1.025)}}@keyframes energy-pulse{50%{box-shadow:0 0 0 8px #b9ff6a33,7px 7px 0 #07091b}}@keyframes card-strike{35%{transform:translateY(-18px) scale(1.04) rotate(2deg)}100%{transform:translateY(0)}}@keyframes enemy-arrival{0%{transform:translate(-50%,-30%) scale(.88);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}@keyframes correct-flash{50%{transform:scale(1.05);filter:brightness(1.2)}}@keyframes wrong-shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* 전투 카드는 비용 → 역할 → 핵심 수치 → 효과 순서로 빠르게 읽히게 한다. */
+.combat-hand>button{grid-template-rows:auto 1fr auto auto;gap:2px;border-color:#07091b;background-image:none!important;box-shadow:7px 7px 0 #050715}
+.combat-hand>button:after{display:none}
+.combat-hand>button.coral{background:#f16a5a}.combat-hand>button.cyan{background:#25bfd3}.combat-hand>button.mint{background:#54c99a}.combat-hand>button.violet{background:#9762d5}.combat-hand>button.amber{background:#d99b35}
+.combat-hand .card-role{position:absolute;z-index:1;top:15px;right:12px;font-size:11px;letter-spacing:.08em;color:#fff;font-weight:1000}
+.combat-hand .card-cost{top:10px;left:10px;width:34px;height:34px;border:3px solid #07091b;background:#10183b;color:#fff;box-shadow:2px 2px 0 #07091b}
+.combat-hand i{align-self:end;font-size:52px;line-height:1;color:#fff;text-shadow:3px 3px 0 #07091b}
+.combat-hand .card-value{font-size:52px;line-height:.9;letter-spacing:-.08em;color:#fff;text-shadow:none}
+.combat-hand .card-name{font-size:20px;line-height:1.05;color:#fff;text-shadow:none}
+.combat-hand em{min-height:28px;display:grid;place-items:center;border-top:2px solid #07091b;padding-top:7px;font-size:11px;line-height:1.25;color:#fff;font-weight:900;text-shadow:none}
+.combat-hand>button:disabled{filter:brightness(.72) saturate(.72);opacity:.72;transform:translate(4px,4px);box-shadow:2px 2px 0 #050715}
+
+/* 카드마다 역할을 한눈에 구분할 수 있도록 아이콘 액자와 효과 영역을 강화한다. */
+.combat-hand>button{isolation:isolate;min-height:248px;padding:16px 13px 13px;border:10px solid #10152e;border-radius:18px;box-shadow:inset 0 0 0 3px #fff7d6,6px 8px 0 #050715;overflow:hidden}
+.combat-hand>button:after{content:"";display:block;position:absolute;z-index:0;inset:55% -35% -30%;height:auto;background:#07133138;transform:rotate(-19deg);pointer-events:none}
+.combat-hand .card-cost{width:38px;height:38px;border-color:#fff8df;background:#10183b;box-shadow:0 0 0 2px #07091b;font-size:18px}
+.combat-hand .card-role{z-index:1;top:13px;right:12px;border:2px solid #fff8df;padding:3px 6px;background:#10183b24;font-size:10px;line-height:1}
+.combat-hand i{display:grid;place-items:center;align-self:center;width:82px;height:82px;margin:20px auto 3px;border:4px solid #fff8df;border-radius:50%;background:#10183b45;box-shadow:0 0 0 3px #07091b44;font-size:48px;text-shadow:none}
+.combat-hand .card-name{width:100%;margin:0 auto 4px;padding:6px 4px 4px;border-top:2px solid #fff8df;border-bottom:2px solid #fff8df;font-size:20px;font-weight:1000;letter-spacing:-.045em;text-shadow:none}
+.combat-hand em{position:relative;min-height:34px;border:0;padding:4px 5px 0;font-size:11px;text-shadow:none}
+.combat-hand>button:not(:disabled):hover i{transform:scale(1.08) rotate(-5deg);box-shadow:0 0 0 4px #fff8df55,0 0 0 7px #07091b44}
+.combat-hand>button:disabled{box-shadow:inset 0 0 0 3px #fff7d677,3px 3px 0 #050715}
+.combat-hand>button[aria-label*="팡업"]{border-color:#8de8ff;outline:3px solid #2a9ec4;box-shadow:inset 0 0 0 3px #e6fbff,0 0 18px #39d9ffb8,6px 8px 0 #050715}.combat-hand>button[aria-label*="팡맥스"]{border-color:#ffe27a;outline:3px solid #e69b22;box-shadow:inset 0 0 0 3px #fffbe2,0 0 22px #ffd84db8,6px 8px 0 #050715;animation:card-deal-in .52s cubic-bezier(.2,.9,.25,1.1) both,pangmax-glow 1.6s ease-in-out infinite}@keyframes pangmax-glow{50%{filter:brightness(1.15);box-shadow:inset 0 0 0 3px #fffbe2,0 0 30px #ffe45dde,6px 8px 0 #050715}}
+@media(max-width:900px){.combat-hand>button{min-height:215px}.combat-hand i{width:68px;height:68px;margin-top:16px;font-size:40px}.combat-hand .card-name{font-size:18px}.combat-hand em{font-size:10px}}
+
+/* 보스 차례에는 공격체가 먼저 이동하고 160ms 뒤 플레이어 피격이 이어진다. */
+.battlefield .fighter.boss.enemy-attacking.physical img{animation:boss-physical-charge .48s cubic-bezier(.22,.72,.25,1) both}
+.battlefield .fighter.boss.enemy-attacking.physical::before{content:"";position:absolute;z-index:8;top:66px;left:10%;width:116px;height:12px;background:#fff7d8;box-shadow:0 0 0 3px #ff5b96,0 0 20px #ffb3d1;transform:rotate(-32deg);animation:boss-slash-run .48s ease-out both;pointer-events:none}
+.battlefield .fighter.boss.enemy-attacking.magic img{animation:boss-magic-cast .48s ease-out both}
+.battlefield .fighter.boss.enemy-attacking.magic::before{content:"";position:absolute;z-index:8;top:74px;left:42%;width:34px;height:34px;border:4px solid #d4ffff;border-radius:50%;background:#62e8ff;box-shadow:0 0 0 4px #9a68ff,0 0 28px #62e8ff;animation:boss-magic-projectile .48s ease-in both;pointer-events:none}
+.battlefield .fighter.boss.enemy-attacking.magic::after{content:"";position:absolute;z-index:7;top:45px;left:50%;width:106px;height:106px;border:4px solid #a66bff;border-radius:50%;box-shadow:0 0 24px #62e8ff,inset 0 0 18px #62e8ff;transform:translateX(-50%);animation:boss-cast-ring .48s ease-out both;pointer-events:none}
+@keyframes boss-physical-charge{0%,100%{transform:translateX(0)}32%{transform:translateX(-48px) scale(1.07)}64%{transform:translateX(-20px) scale(1.03)}}
+@keyframes boss-slash-run{0%{opacity:0;transform:translate(52px,20px) rotate(-32deg) scale(.55)}28%{opacity:1}72%{opacity:1;transform:translate(-178px,70px) rotate(-32deg) scale(1.12)}100%{opacity:0;transform:translate(-208px,82px) rotate(-32deg) scale(1.2)}}
+@keyframes boss-magic-cast{0%,100%{transform:translateX(0)}35%{transform:translateX(12px) scale(1.05);filter:brightness(1.8) drop-shadow(0 0 14px #62e8ff)}65%{transform:translateX(-14px) scale(1.02)}}
+@keyframes boss-magic-projectile{0%{opacity:0;transform:translate(20px,6px) scale(.35)}25%{opacity:1;transform:translate(0,0) scale(1)}78%{opacity:1;transform:translate(-235px,54px) scale(1.18)}100%{opacity:0;transform:translate(-268px,62px) scale(.7)}}
+@keyframes boss-cast-ring{0%{opacity:0;scale:.35}35%{opacity:1;scale:1}100%{opacity:0;scale:1.34}}
+
+.battle-message{display:block;border-radius:0;cursor:pointer}
+.battle-message:hover{filter:brightness(1.14);outline:2px solid #bafc70;outline-offset:3px}
+.battle-log-backdrop{position:fixed;z-index:40;inset:0;display:grid;place-items:center;padding:24px;background:#030618aa;backdrop-filter:blur(7px)}
+.battle-log-modal{width:min(620px,92vw);max-height:min(680px,82vh);overflow:auto;border:3px solid #b8c8ff;background:#10183b;color:#fff;box-shadow:10px 10px 0 #050715;padding:20px}
+.battle-log-modal header{display:flex;justify-content:space-between;align-items:start;border-bottom:2px solid #7180b8;padding-bottom:12px}
+.battle-log-modal header p{margin:0;color:var(--lime);font-size:10px;font-weight:1000;letter-spacing:.12em}.battle-log-modal h2{margin:3px 0 0;font-size:25px}
+.battle-log-modal header button{width:34px;height:34px;border:2px solid #c8d5ff;background:#263762;color:#fff;font-size:26px;line-height:1;font-weight:900}
+.battle-log-modal ol{display:grid;gap:8px;margin:16px 0;padding:0;list-style:none}.battle-log-modal li{display:grid;grid-template-columns:28px 1fr;gap:9px;align-items:start;border:1px solid #7180b8;background:#17224b;padding:9px 10px;font-size:14px;font-weight:800;line-height:1.45}.battle-log-modal li b{display:grid;place-items:center;width:24px;height:24px;background:#33477c;color:var(--lime);font-size:11px}.battle-log-modal li span{text-wrap:balance}.battle-log-modal>small{display:block;color:#b9c5ee;font-size:11px;text-align:center}
+@media(max-width:900px){.battle-log-modal{padding:16px}.battle-log-modal li{font-size:13px}}
+
+.action-panel .card-draw-rules{display:block;margin-top:8px;border:2px solid #91a5df;background:#263762;color:#f4f7ff;padding:6px 10px;font-size:12px;font-weight:1000;box-shadow:3px 3px 0 #050715}
+.action-panel .card-draw-rules:hover{background:#344f82;color:#fff}
+.card-rules-backdrop{position:fixed;z-index:50;inset:0;display:grid;place-items:center;padding:24px;background:#030618aa;backdrop-filter:blur(7px)}
+.card-rules-modal{width:min(560px,92vw);border:3px solid #d8e6ff;background:#10183b;color:#fff;box-shadow:10px 10px 0 #050715;padding:21px}
+.card-rules-modal header{display:flex;justify-content:space-between;align-items:start;border-bottom:2px solid #7180b8;padding-bottom:12px}.card-rules-modal header p{margin:0;color:var(--lime);font-size:10px;font-weight:1000;letter-spacing:.12em}.card-rules-modal h2{margin:3px 0 0;font-size:25px}.card-rules-modal header button{width:34px;height:34px;border:2px solid #c8d5ff;background:#263762;color:#fff;font-size:26px;line-height:1;font-weight:900}
+.card-rules-modal ol{display:grid;gap:9px;margin:17px 0;padding:0;list-style:none}.card-rules-modal li{display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start;border:2px solid #7180b8;background:#17224b;padding:11px}.card-rules-modal li>b{display:grid;place-items:center;width:28px;height:28px;border:2px solid #d8ff9b;background:var(--lime);color:#10183b;font-size:13px}.card-rules-modal li strong,.card-rules-modal li span{display:block}.card-rules-modal li strong{margin-bottom:4px;font-size:15px}.card-rules-modal li span{color:#c8d5ff;font-size:13px;font-weight:800;line-height:1.45}.card-rules-close{display:block;width:100%;border:3px solid #fff8df;background:var(--lime);box-shadow:4px 4px 0 #050715;color:#10183b;padding:10px;font-weight:1000}
+@media(max-width:900px){.card-rules-modal{padding:16px}.card-rules-modal h2{font-size:22px}.card-rules-modal li{padding:9px}.card-rules-modal li span{font-size:12px}}
+
+.character-grid button>span>em{display:block;margin-top:5px;color:#17396b;font-size:10px;font-style:normal;font-weight:1000;line-height:1.25}
+.quiz-modal>header>div{display:flex;align-items:center;gap:8px}.quiz-minimize,.quiz-reopen{border:2px solid var(--ink);background:#273d70;color:#fff;padding:6px 9px;font-size:11px;font-weight:900;box-shadow:3px 3px 0 #161731}.quiz-reopen{display:block;margin:-8px auto 10px;position:relative;z-index:3;background:#b22d67;border-color:var(--paper);box-shadow:4px 4px 0 #050715}.action-panel.preview .combat-hand>button:disabled{filter:none;opacity:1;cursor:default}.action-panel.preview{border-color:#9caad8}.action-panel.preview>header strong{color:#d7e2ff}@media(max-width:620px){.quiz-modal>header>div{gap:5px}.quiz-minimize{padding:5px 7px;font-size:10px}.quiz-modal>header strong{padding:5px 7px;font-size:11px}}
+.quiz-minimize,.quiz-reopen{min-height:44px;padding:10px 15px;font-size:14px;letter-spacing:.02em}.quiz-minimize{background:#263d72;border-color:#bfd2ff;box-shadow:4px 4px 0 #151a36}.quiz-reopen{min-height:50px;margin:-4px auto 14px;background:#b22d67;border:3px solid var(--paper);box-shadow:5px 5px 0 #050715;font-size:15px}.action-panel .hand-heading{min-width:0}.action-panel .action-controls{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}.action-panel .card-draw-rules{display:inline-flex;align-items:center;justify-content:center;min-height:44px;margin:0;border:2px solid #91a5df;background:#263762;color:#f4f7ff;padding:9px 12px;font-size:13px;white-space:nowrap}.action-panel.preview .action-controls{margin-left:auto}@media(max-width:900px){.action-panel .action-controls{gap:8px}.action-panel .card-draw-rules{min-height:40px;padding:8px 10px;font-size:12px}}@media(max-width:620px){.quiz-modal>header>div{gap:7px}.quiz-minimize{min-height:38px;padding:7px 9px;font-size:12px}.quiz-reopen{min-height:46px;font-size:14px}.action-panel>header{align-items:flex-start}.action-panel .action-controls{width:100%;justify-content:flex-start}.action-panel .card-draw-rules{flex:1}.action-panel .action-controls>button:not(.card-draw-rules){flex:1}.quiz-modal>header strong{padding:5px 7px;font-size:11px}}
+.battle-message{width:fit-content;min-width:0;min-height:0;max-width:min(600px,calc(100% - 560px));padding:8px 15px;line-height:1.45;white-space:normal;text-wrap:pretty}@media(max-width:900px){.battle-message{max-width:calc(100% - 40px)}}
+.landing-title-card .landing-grade{margin:0 0 5px;color:#5a48e7;font-size:.7rem;font-weight:1000;letter-spacing:.05em}.landing-title-card h1{color:#10152e;letter-spacing:-.055em}
+.landing-guide{max-height:min(82dvh,760px);overflow:auto}.landing-guide .guide-section{margin:0 0 16px}.landing-guide .guide-section h3{margin:0 0 7px;color:#4034a7;font-size:16px}.landing-guide .guide-section p{margin:0 0 7px;font-size:13px;line-height:1.5}.landing-guide .guide-section ol{margin:0;padding:0}.landing-guide .guide-section li{grid-template-columns:27px 1fr;padding:8px}.landing-guide .guide-section li>b{width:24px;height:24px;font-size:11px}.landing-guide .guide-confirm{position:sticky;bottom:0}@media(max-width:620px){.landing-guide{padding:20px 16px}.landing-guide h2{font-size:24px}.landing-guide .guide-section{margin-bottom:13px}.landing-guide .guide-section h3{font-size:15px}.landing-guide .guide-section p,.landing-guide .guide-section li span{font-size:12px}.landing-guide .guide-section li{padding:7px}}
+
+/* 보스 보상 수정: 전투 가방, 획득 보상, 거울 봉인을 한눈에 구분한다. */
+.reward-item-list{display:grid;gap:8px;margin:14px 0;text-align:left}.reward-item-list article{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;border:2px solid #6077b2;background:#17224b;padding:8px}.reward-item-list article>i{display:grid;place-items:center;width:32px;height:32px;border:2px solid var(--item);background:#0b1029;color:var(--item);font-size:19px;font-style:normal;filter:drop-shadow(0 0 5px var(--item))}.reward-item-list strong,.reward-item-list small,.reward-item-list em{display:block}.reward-item-list strong{font-size:13px}.reward-item-list small{margin-top:2px;color:#c8d5ff;font-size:10px;font-weight:800;line-height:1.25}.reward-item-list em{margin-top:3px;color:var(--item);font-size:10px;font-style:normal;font-weight:1000}.reward-item-list article.locked{opacity:.5;filter:grayscale(.8)}.reward-item-list article.used{opacity:.62;filter:grayscale(.7)}.reward-item-list article>button{margin:0;border:2px solid var(--item);background:var(--item);color:#0b1029;padding:6px 8px;font-size:11px;box-shadow:2px 2px 0 #050715}.reward-item-list article>button:disabled{opacity:.45;cursor:not-allowed}.reward-item-earned{display:flex;align-items:center;gap:12px;margin:18px 0;border:3px solid var(--item);background:#161b45;color:#fff;padding:12px;text-align:left;box-shadow:5px 5px 0 #050715}.reward-item-earned>i{display:grid;place-items:center;width:42px;height:42px;border:2px solid var(--item);color:var(--item);font-size:25px;font-style:normal}.reward-item-earned small,.reward-item-earned strong,.reward-item-earned em{display:block}.reward-item-earned small{color:var(--item);font-size:10px;font-weight:1000}.reward-item-earned strong{margin:2px 0;font-size:16px}.reward-item-earned em{font-size:11px;font-style:normal}.quiz-options button{position:relative}.quiz-options button.lucky-revealed{border-color:#d8ff72;background:#30451f;color:#fff;box-shadow:inset 0 0 0 2px #d8ff72}.quiz-options button.bomb-sealed{border-color:#8590af;background:#29304a;color:#c9d1e8;opacity:.72;cursor:not-allowed;box-shadow:none}.quiz-options button small{display:block;margin-bottom:3px;font-size:10px;font-weight:1000}
+@media(max-width:620px){.reward-item-list article{grid-template-columns:29px 1fr auto;padding:7px}.reward-item-list article>i{width:27px;height:27px;font-size:16px}.reward-item-list strong{font-size:12px}.reward-item-list small{font-size:9px}.reward-item-list article>button{padding:5px;font-size:10px}.reward-item-earned{margin:14px 0;padding:10px}.reward-item-earned strong{font-size:14px}}
+
+/* 모바일·태블릿 랜딩: 정사각형 일러스트와 독립 정보·행동 카드를 한 화면에 배치한다. */
+@media(max-width:800px){
+  .landing-page{display:block;min-height:100dvh;padding:clamp(10px,2.2dvh,18px) clamp(20px,7vw,42px);overflow:hidden;background:#fff9ed;color:var(--ink)}
+  .landing-page .pixel-grid{opacity:.16;background-image:radial-gradient(#d7bb96 1.5px,transparent 1.5px);background-size:18px 18px}
+  .hero-card{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto auto;gap:clamp(12px,1.8dvh,18px);width:100%;min-height:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible}
+  .hero-copy{display:contents}
+  .hero-art{grid-row:1;min-height:0;width:min(calc(100vw - 40px),43dvh);aspect-ratio:1;margin:0 auto;border:4px solid var(--ink);border-radius:24px;background:#17152a;box-shadow:8px 8px 0 #05050e}
+  .hero-art picture,.hero-art img{display:block;width:100%;height:100%}
+  .hero-art img{object-fit:contain;object-position:center}
+  .hero-title{grid-row:2;margin:0 auto;padding:clamp(14px,2.2dvh,22px) 18px;width:min(100%,520px);border:4px solid var(--ink);border-radius:20px;background:#eef5ff;box-shadow:7px 7px 0 #05050e;text-align:center}
+  .hero-title .eyebrow,.hero-title>p:not(.eyebrow){display:none}
+  .hero-title h1{margin:0;font-size:clamp(25px,6.6vw,42px);line-height:1.14;letter-spacing:-.075em}
+  .hero-title h1 br{display:none}
+  .hero-title h1 em{color:#5b46f0}
+  .landing-actions{grid-row:3;display:grid;gap:clamp(10px,1.8dvh,16px);margin:0 auto;width:min(100%,520px)}
+  .landing-actions button{width:100%;min-height:clamp(58px,8.5dvh,76px);border:4px solid var(--ink);border-radius:18px;box-shadow:7px 7px 0 #05050e;font-size:clamp(24px,7vw,38px);letter-spacing:-.05em}
+  .primary-button{background:#c9f7df}.guide-button{background:#ffe1e6}
+  .primary-button b{margin-left:10px}
+}
+
+/* 모든 화면에서 팡 시리즈 공통의 단일 세로 랜딩 구조를 사용한다. */
+.landing-page{display:grid;place-items:center;min-height:100dvh;padding:clamp(12px,2.2dvh,24px) clamp(20px,6vw,44px);overflow:hidden;background:#fff9ed;color:var(--ink)}
+.landing-page .pixel-grid{opacity:.16;background-image:radial-gradient(#d7bb96 1.5px,transparent 1.5px);background-size:18px 18px}
+.hero-card{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto auto;gap:clamp(12px,1.8dvh,18px);width:min(100%,620px);min-height:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible}
+.hero-copy{display:contents}
+.hero-art{grid-row:1;min-height:0;width:min(100%,48dvh);aspect-ratio:1;margin:0 auto;border:4px solid var(--ink);border-radius:24px;background:#17152a;box-shadow:8px 8px 0 #05050e}
+.hero-art picture,.hero-art img{display:block;width:100%;height:100%}
+.hero-art img{object-fit:contain;object-position:center}
+.hero-title{grid-row:2;margin:0 auto;padding:clamp(14px,2.1dvh,22px) clamp(16px,3vw,24px);width:100%;border:4px solid var(--ink);border-radius:20px;background:#eef5ff;box-shadow:7px 7px 0 #05050e;text-align:center}
+.hero-title .eyebrow{display:none}
+.hero-title h1{margin:0;font-size:clamp(25px,3.2vw,42px);line-height:1.14;letter-spacing:-.075em}
+.hero-title h1 br{display:none}
+.hero-title h1 em{color:#5b46f0}
+.hero-title>p:not(.eyebrow){display:block;max-width:500px;margin:9px auto 0;font-size:clamp(12px,1.35vw,16px);line-height:1.45;font-weight:750}
+.landing-actions{grid-row:3;display:grid;gap:clamp(10px,1.8dvh,16px);margin:0 auto;width:100%}
+.landing-actions button{width:100%;min-height:clamp(58px,7.2dvh,76px);border:4px solid var(--ink);border-radius:18px;box-shadow:7px 7px 0 #05050e;font-size:clamp(24px,3.4vw,38px);letter-spacing:-.05em}
+.primary-button{background:#c9f7df}.guide-button{background:#ffe1e6}.primary-button b{margin-left:10px}
+@media(max-width:800px){.hero-art{width:min(calc(100vw - 40px),43dvh)}}
+@media(min-width:801px){.landing-page{zoom:1}.hero-art{width:min(100%,46dvh)}.hero-title{width:min(100%,620px)}}
+
+/* 기존 랜딩 카드 조합을 곱셈구구편 주제로 재사용한다. */
+.landing-page{display:grid;place-items:center;min-height:100vh;padding:18px;background-color:#f8f3e8;background-image:radial-gradient(circle at 15% 10%,#fff 0 2px,transparent 3px),radial-gradient(circle at 85% 26%,#ffd46b 0 3px,transparent 4px);background-size:72px 72px,110px 110px;color:#10152e}
+.landing-page .pixel-grid{display:none}.landing-shell{position:relative;z-index:1;width:min(100%,552px)}.landing-art-card{position:relative;overflow:hidden;border:4px solid #101010;border-radius:32px;padding:10px;background:#fffdf7;box-shadow:9px 10px 0 #101010}.landing-art{display:block;width:100%;height:auto;aspect-ratio:1;border:3px solid #101010;border-radius:23px;object-fit:cover}.landing-title-card{margin-top:24px;border:3px solid #101010;border-radius:20px;padding:16px 18px;background:#eef5ff;box-shadow:6px 7px 0 #101010;text-align:center}.landing-title-card h1{margin:0;font-size:clamp(1.28rem,4vw,1.75rem);font-weight:950;line-height:1.2}.landing-title-card .title-luckypang{color:#10152e}.landing-title-card .title-dungeon{color:#5a48e7}.landing-title-card .title-topic{color:#108c83}.landing-title-card strong{display:block;margin-top:8px;color:#4b5568;font-size:.75rem}.landing-actions{display:grid;gap:14px;margin-top:26px}.landing-button{min-height:76px;border:3px solid #101010;border-radius:18px;box-shadow:6px 7px 0 #101010;color:#10152e;font-size:clamp(.9rem,3.33vw,1.33rem);font-weight:950;transition:transform .14s ease,box-shadow .14s ease}.landing-button:hover{transform:translate(-2px,-2px);box-shadow:8px 9px 0 #101010}.landing-button:active{transform:translate(5px,6px);box-shadow:1px 1px 0 #101010}.landing-button.start{background:#c9f7e4}.landing-button.help{background:#ffe1e5}
+@media(min-width:661px){.landing-shell{width:min(100%,442px)}.landing-art-card{border-radius:26px;padding:8px;box-shadow:7px 8px 0 #101010}.landing-art{border-radius:19px}.landing-title-card{margin-top:19px;padding:13px 14px;box-shadow:5px 6px 0 #101010}.landing-title-card h1{font-size:1.42rem}.landing-title-card strong{margin-top:6px;font-size:.68rem}.landing-actions{gap:11px;margin-top:20px}.landing-button{min-height:62px;border-radius:15px;box-shadow:5px 6px 0 #101010;font-size:1.05rem}}
+@media(max-width:660px){.landing-page{padding:10px}.landing-shell{margin:0 auto}.landing-art-card{border-radius:23px;padding:7px;box-shadow:6px 7px 0 #101010}.landing-art{border-radius:16px}.landing-title-card{margin-top:17px;padding:13px 9px;box-shadow:4px 5px 0 #101010}.landing-actions{gap:11px;margin-top:19px}.landing-button{min-height:64px;box-shadow:4px 5px 0 #101010}}
+
+/* 기존 랜딩 공통 버튼 규칙보다 우선해 CTA 글자 크기를 확실히 낮춘다. */
+.landing-actions .landing-button{font-size:clamp(16px,2.25vw,25px)}
+
+/* 캐릭터·난이도 완주 칭호 도감 */
+.title-cabinet-button{margin-top:10px;border:1px solid #73809b;border-radius:999px;background:#fffdf7;color:#34415d;padding:5px 9px;font-size:.63rem;font-weight:950}.title-cabinet-button span{margin-left:3px;color:#5a48e7}.title-collection-backdrop{position:fixed;z-index:60;inset:0;display:grid;place-items:center;padding:20px;background:#050719b8;backdrop-filter:blur(7px)}.title-collection-modal{position:relative;width:min(700px,100%);max-height:min(82dvh,760px);overflow:auto;border:3px solid var(--ink);background:var(--paper);color:var(--ink);padding:28px;box-shadow:10px 10px 0 #05050e}.title-collection-modal h2{margin:6px 0;font-size:30px}.title-collection-modal h2 span{color:#5a48e7;font-size:.72em}.title-collection-modal>p:not(.eyebrow){margin:0 0 16px;color:#59647a;font-size:13px;font-weight:750;line-height:1.5}.title-collection-close{position:absolute;top:14px;right:14px;width:34px;height:34px;border:2px solid var(--ink);background:#fff;font-size:25px;line-height:1}.title-character-tabs,.title-difficulty-tabs{display:grid;gap:7px;margin-bottom:10px}.title-character-tabs{grid-template-columns:repeat(3,1fr)}.title-character-tabs button{display:flex;align-items:center;justify-content:center;gap:5px;border:2px solid var(--ink);background:#fff;padding:7px;font-weight:950}.title-character-tabs button.selected{background:var(--lime)}.title-character-tabs img{width:28px;height:28px;object-fit:contain}.title-difficulty-tabs{grid-template-columns:repeat(3,1fr)}.title-difficulty-tabs button{display:grid;grid-template-columns:auto 1fr;gap:0 5px;align-items:center;border:2px solid currentColor;background:#fff;padding:7px;color:#5042ca;font-weight:950}.title-difficulty-tabs button.easy{color:#218a70}.title-difficulty-tabs button.hard{color:#b13878}.title-difficulty-tabs button.selected{background:color-mix(in srgb,currentColor 13%,white)}.title-difficulty-tabs i{font-style:normal}.title-difficulty-tabs small{grid-column:2;color:inherit;font-size:10px}.title-badge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.title-badge{display:grid;grid-template-columns:32px 1fr;gap:1px 8px;align-items:center;border:2px solid var(--title-color);background:#fff;padding:9px}.title-badge>i{grid-row:span 3;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--title-color);color:#fff;font-style:normal;font-weight:1000}.title-badge small{color:#5f6880;font-size:10px;font-weight:850}.title-badge strong{font-size:15px}.title-badge em{font-size:11px;font-style:normal;color:var(--title-color);font-weight:900}.title-badge.locked{border-color:#9aa0ae;background:#edf0f5;filter:grayscale(.8)}.title-badge.locked>i{background:#9aa0ae}.title-badge.locked em{color:#707786}.earned-title{display:grid;grid-template-columns:46px 1fr;gap:10px;align-items:center;margin:14px auto;border:3px solid var(--title-color);background:#fff;padding:10px;text-align:left}.earned-title>i{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--title-color);color:#fff;font-style:normal;font-size:22px;font-weight:1000}.earned-title span{display:grid;gap:2px}.earned-title small,.earned-title em{color:#536078;font-size:11px;font-style:normal;font-weight:800}.earned-title strong{color:var(--ink);font-size:17px}@media(max-width:620px){.title-collection-modal{padding:20px 15px}.title-collection-modal h2{font-size:24px}.title-character-tabs button{font-size:12px}.title-difficulty-tabs button{font-size:12px;padding:6px}.title-badge-grid{grid-template-columns:1fr}.title-badge{padding:8px}.title-cabinet-button{margin-top:8px;font-size:.58rem}}
+
+/* 전투 패널과 같은 어두운 수정 보관함 톤으로 도감을 통일한다. */
+.title-collection-modal{border-color:#aebfff;background:linear-gradient(155deg,#18234d,#0b1230 72%);color:#f7f4df;box-shadow:12px 12px 0 #02030c}.title-collection-header{display:flex;align-items:center;gap:12px;margin:0 42px 18px 0;padding:0 0 15px;border-bottom:2px solid #6273af}.title-collection-header>span{display:grid;place-items:center;width:45px;height:45px;border:2px solid #c6d4ff;background:#273966;font-size:22px}.title-collection-modal h2{margin:0;color:#fff;font-size:28px}.title-collection-modal h2 b{color:var(--lime);font-size:.68em}.title-collection-header p{margin:3px 0 0;color:#c2cef4;font-size:12px;font-weight:750;line-height:1.45}.title-collection-close{border-color:#c6d4ff;background:#263762;color:#fff}.title-character-tabs{gap:8px;margin-bottom:12px}.title-character-tabs button{border-color:#7185c3;background:#162148;color:#dce6ff;box-shadow:3px 3px 0 #050715}.title-character-tabs button.selected{border-color:var(--lime);background:#2b4770;color:#fff}.title-character-tabs img{filter:drop-shadow(2px 2px 0 #050715)}.title-difficulty-tabs{gap:8px;margin-bottom:14px}.title-difficulty-tabs button{border-color:#788bc9;background:#101a3d;color:#c7d5ff}.title-difficulty-tabs button.easy{color:#8df4c3}.title-difficulty-tabs button.hard{color:#ff9bc9}.title-difficulty-tabs button.selected{background:color-mix(in srgb,currentColor 20%,#17234d);box-shadow:inset 0 0 0 1px currentColor}.title-badge-grid{gap:10px}.title-badge{border-color:color-mix(in srgb,var(--title-color) 70%,#9caee8);background:linear-gradient(135deg,#1a2754,#111b3e);box-shadow:3px 3px 0 #050715}.title-badge small{color:#c4d0ef}.title-badge strong{color:#fff}.title-badge.locked{border-color:#54617e;background:#121a34;filter:none}.title-badge.locked>i{background:#56617b}.title-badge.locked small{color:#8793b4}.title-badge.locked strong{color:#aeb7cf}.title-badge.locked em{color:#78849f}.title-collection-modal::-webkit-scrollbar{width:10px}.title-collection-modal::-webkit-scrollbar-thumb{border:2px solid #10193a;background:#6676b5}
+
+/* 랜딩 소개와 칭호 도감은 2:1 비율의 한 장 카드로 배치한다. */
+.landing-title-card{display:grid;grid-template-columns:minmax(0,2fr) minmax(86px,1fr);gap:12px;align-items:stretch;text-align:left}.landing-title-card .landing-description{display:flex;align-items:center;min-width:0}.landing-title-card .landing-description strong{margin:0;color:#3f4b66;font-size:clamp(.72rem,2.1vw,.86rem);line-height:1.55}.landing-title-card .title-cabinet-button{display:grid;place-items:center;align-content:center;justify-self:center;align-self:center;width:min(86px,100%);gap:2px;aspect-ratio:1;margin:0;border:2px solid #17152a;border-radius:12px;background:#e1e9ff;color:#17224b;padding:7px;box-shadow:3px 3px 0 #17152a;font-size:clamp(.58rem,1.9vw,.72rem);line-height:1.05;text-align:center}.landing-title-card .title-cabinet-button i{font-size:clamp(1.1rem,3vw,1.45rem);font-style:normal}.landing-title-card .title-cabinet-button b{font-weight:1000}.landing-title-card .title-cabinet-button span{margin:0;color:#5a48e7;font-size:.88em;font-weight:950}.landing-title-card .title-cabinet-button:hover{transform:translate(-1px,-1px);background:#d4ddff;box-shadow:4px 4px 0 #17152a}.landing-title-card .title-cabinet-button:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #17152a}@media(max-width:660px){.landing-title-card{grid-template-columns:minmax(0,2fr) minmax(78px,1fr);gap:9px;padding:10px}.landing-title-card .landing-description strong{font-size:.69rem;line-height:1.45}.landing-title-card .title-cabinet-button{width:min(72px,100%);border-radius:10px;padding:5px;font-size:.58rem}.landing-title-card .title-cabinet-button i{font-size:1.15rem}}
+
+/* 칭호 도감 닫기 버튼은 헤더 아이콘과 분리해 오른쪽 위에 고정한다. */
+.title-collection-close{position:absolute;top:16px;right:16px;left:auto;z-index:3}.title-collection-header{margin-right:52px}@media(max-width:620px){.title-collection-close{top:12px;right:12px}.title-collection-header{margin-right:44px}}
+
+/* 랜딩 설명 카드를 제거하고 안내·칭호 도감을 같은 줄에 배치한다. */
+.landing-actions{grid-template-columns:repeat(4,minmax(0,1fr))}.landing-actions>.start{grid-column:1/-1}.landing-action-row{grid-column:1/-1;display:grid;grid-template-columns:3fr 1fr;gap:14px}.landing-action-row .title-cabinet-button{display:grid;place-items:center;align-content:center;min-height:76px;margin:0;border:3px solid #101010;border-radius:18px;background:#e1e9ff;color:#17224b;padding:6px 4px;box-shadow:6px 7px 0 #101010;font-size:clamp(.54rem,1.65vw,.7rem);font-weight:1000;line-height:1.05;text-align:center}.landing-action-row .title-cabinet-button i{font-size:clamp(.9rem,2.5vw,1.1rem);font-style:normal}.landing-action-row .title-cabinet-button b{font-weight:1000}.landing-action-row .title-cabinet-button span{margin:1px 0 0;color:#5a48e7;font-size:.9em;font-weight:950}.landing-action-row .title-cabinet-button:hover{transform:translate(-2px,-2px);background:#d4ddff;box-shadow:8px 9px 0 #101010}.landing-action-row .title-cabinet-button:active{transform:translate(5px,6px);box-shadow:1px 1px 0 #101010}@media(min-width:661px){.landing-action-row{gap:11px}.landing-action-row .title-cabinet-button{min-height:62px;border-radius:15px;box-shadow:5px 6px 0 #101010}}@media(max-width:660px){.landing-action-row{gap:11px}.landing-action-row .title-cabinet-button{min-height:64px;box-shadow:4px 5px 0 #101010}}
+
+/* 닫기 버튼 전용 상단 공간을 확보해 도감 헤더와 겹치지 않게 한다. */
+.title-collection-modal{padding-top:68px}.title-collection-close{top:16px;right:16px;left:auto;z-index:4}.title-collection-header{margin-right:0}@media(max-width:620px){.title-collection-modal{padding-top:60px}.title-collection-close{top:12px;right:12px}}
+
+/* 사용 안내 닫기 버튼도 우측 상단의 전용 공간에 고정한다. */
+.landing-guide{padding-top:68px}.guide-close{top:16px;right:16px;left:auto;z-index:4}@media(max-width:620px){.landing-guide{padding-top:60px}.guide-close{top:12px;right:12px}}
+
+/* 공통 버튼 위치 규칙보다 우선해 두 닫기 버튼을 절대 위치로 유지한다. */
+.title-collection-close:not(:disabled),.guide-close:not(:disabled){position:absolute}
+
+/* 닫기 기호를 버튼 정사각형의 시각적 중앙에 맞춘다. */
+.title-collection-close:not(:disabled),.guide-close:not(:disabled){display:flex;align-items:center;justify-content:center;padding:0;text-indent:0;font-family:Arial,sans-serif;line-height:1}
+
+/* 시나리오 대화에서도 보스 칭호와 이름을 분리해 읽기 쉽게 표시한다. */
+.dialogue-boss-name{display:grid;gap:1px}.dialogue-copy header .dialogue-boss-name small{color:var(--stage);font-size:10px;font-weight:1000;line-height:1.1}.dialogue-copy header .dialogue-boss-name strong{font-size:20px;line-height:1.1}
+
+/* 완료 버튼은 안내 내용 뒤에 흐름대로 배치해 설명을 가리지 않게 한다. */
+.landing-guide .guide-confirm{position:static;margin-top:8px}
+
+/* 시나리오 확인문제: 범위에 포함되는 수를 여러 개 고르게 한다. */
+.dialogue-multi-check{margin-top:12px;border:2px solid #67658a;background:#f3f5ff;padding:10px}.dialogue-multi-check>small{display:block;margin-bottom:8px;color:#4f46b8;font-size:12px;font-weight:1000}.dialogue-multi-options{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}.dialogue-multi-options button{display:flex;align-items:center;justify-content:center;gap:5px;min-height:44px;border:2px solid var(--ink);background:#fff;color:var(--ink);font-weight:1000}.dialogue-multi-options button b{display:grid;place-items:center;width:18px;height:18px;border:1px solid var(--ink);border-radius:50%;background:#ecebff;font-size:12px}.dialogue-multi-options button.selected{background:#dff8eb;box-shadow:inset 0 0 0 2px #56b982}.dialogue-multi-options button.selected b,.dialogue-multi-options button.answer b{background:#49ad76;color:#fff}.dialogue-multi-options button:disabled{cursor:default;opacity:1}.dialogue-multi-actions{display:flex;gap:8px;margin-top:9px}.dialogue-multi-actions button{border:2px solid var(--ink);background:var(--lime);padding:8px 12px;font-weight:1000;box-shadow:3px 3px 0 var(--ink)}.dialogue-multi-actions button:disabled{opacity:.45;box-shadow:none}.dialogue-multi-actions .retry{background:#fff}.multi-feedback{margin-top:10px;border-left:5px solid #45a96e;background:#ddf9e8;padding:8px 10px;font-size:12px;line-height:1.45}.multi-feedback.wrong{border-color:#db4968;background:#ffe0e6}.multi-feedback strong{display:block}.multi-feedback ul{display:grid;gap:3px;margin:5px 0 0;padding-left:18px}@media(max-width:700px){.dialogue-multi-options{grid-template-columns:repeat(3,minmax(0,1fr))}.dialogue-multi-options button{min-height:40px}.dialogue-multi-check{padding:8px}.dialogue-multi-check>small,.multi-feedback{font-size:11px}}
+
+/* v2의 반응형 전장 구조: 태블릿은 3열, 휴대폰 세로는 중앙 행동력과 양쪽 전투원을 분리한다. */
+@media (min-width:661px) and (max-width:1024px){
+  .battle-page{padding:10px 18px 22px}
+  .battlefield{display:grid;grid-template-columns:minmax(145px,1fr) minmax(158px,.86fr) minmax(145px,1fr);height:355px;padding:14px 16px;gap:8px}
+  .battlefield .fighter.hero{grid-column:1;justify-self:center}.battlefield .fighter.boss{grid-column:3;justify-self:center}
+  .battlefield .fighter img{width:178px;height:178px}.battlefield .fighter-name{width:170px}
+  .turn-energy{position:relative;left:auto;top:auto;grid-column:2;grid-row:1;justify-self:center;align-self:center;min-width:142px;transform:none}
+  .combat-hand{grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.combat-hand>button:last-child{grid-column:auto}
+}
+@media (max-width:660px){
+  .battle-page{padding:8px 10px 18px}
+  .combat-header{height:auto;min-height:0;grid-template-columns:1fr auto;gap:6px;padding:9px 10px;box-shadow:5px 5px 0 #050715}
+  .combat-header>strong{grid-column:1 / -1;text-align:center;font-size:13px}.combat-header>span{justify-self:start;font-size:11px}.combat-header>button{padding:7px 9px;font-size:11px}
+  .combat-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.combat-stats>div{min-width:0;padding:8px}.combat-stats strong{font-size:16px}
+  .battlefield{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto 1fr;min-height:345px;height:auto;padding:10px 8px 14px;gap:8px;align-items:end}
+  .turn-energy{position:relative;left:auto;top:auto;grid-column:1 / -1;grid-row:1;justify-self:center;align-self:start;min-width:138px;padding:8px 12px;transform:none}
+  .turn-energy strong{font-size:34px}.battlefield .fighter{align-self:end;min-width:0}.battlefield .fighter.hero{grid-column:1;grid-row:2}.battlefield .fighter.boss{grid-column:2;grid-row:2}
+  .battlefield .fighter img{width:128px;height:128px}.battlefield .fighter-name{width:min(100%,148px)}.fighter-name strong{font-size:15px}.fighter-name .boss-stance{max-width:100%;white-space:normal}
+  .battle-message{width:calc(100% - 12px);margin:9px auto 10px;transform:none;font-size:12px}
+  .action-panel{padding:13px 10px}.action-panel>header{gap:10px}.action-panel>header strong{font-size:13px}.action-panel .action-controls{display:grid;grid-template-columns:1fr 1fr;width:100%}.action-panel .card-draw-rules{grid-column:1 / -1}.action-panel .action-controls>button:not(.card-draw-rules){width:100%}
+  .combat-hand{display:flex;gap:9px;overflow-x:auto;grid-template-columns:none;margin-top:14px;padding:3px 4px 14px;scroll-snap-type:x mandatory}.combat-hand>button,.combat-hand>button:last-child{flex:0 0 132px;min-height:184px;grid-column:auto;scroll-snap-align:start}.combat-hand i{width:58px;height:58px;margin-top:10px;font-size:34px}.combat-hand .card-name{font-size:16px}.combat-hand em{font-size:10px}
+  .dialogue-page{padding:8px}.dialogue-bar{gap:6px}.dialogue-bar button{padding:7px 8px;font-size:11px}.dialogue-bar strong{font-size:13px}.dialogue-world{min-height:250px}.world-hero,.world-boss{width:132px;height:132px}.world-hero{left:1%}.world-boss{right:1%}.concept-banner{top:10px;width:calc(100% - 26px);padding:7px 9px}.concept-banner strong{font-size:14px}
+  .dialogue-box{grid-template-columns:62px minmax(0,1fr);gap:9px;min-height:0;padding:9px}.dialogue-box>img{width:58px;height:78px}.dialogue-copy header{gap:7px}.dialogue-copy header strong{font-size:16px}.dialogue-copy>p{font-size:15px;line-height:1.45}.next-button{grid-column:1 / -1;width:100%;margin-top:2px;padding:10px}
+}
+
+/* 휴대폰 세로: 보기는 2열로 균등하게, 손패는 v2처럼 겹침 없는 가로 스크롤로 표시한다. */
+@media (max-width:660px){
+  .quiz-options.short{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .quiz-options.short button:last-child{grid-column:auto}
+  .dialogue-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .dialogue-choices button{min-height:38px;padding:7px 8px;text-align:center}
+  .dialogue-multi-options{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .dialogue-multi-options button{min-height:38px}
+  .combat-hand{align-items:stretch;gap:8px;margin-top:12px;padding:4px 4px 16px;overflow-x:auto;overscroll-behavior-x:contain}
+  .combat-hand>button,.combat-hand>button:last-child{box-sizing:border-box;flex:0 0 126px;min-height:176px;padding:11px 7px 8px;border-width:6px;scroll-snap-align:start}
+  .combat-hand>button:disabled,.combat-hand>button:not(:disabled):hover{transform:none;box-shadow:inset 0 0 0 2px #fff7d677,3px 3px 0 #050715}
+  .combat-hand .card-cost{top:7px;left:7px;width:30px;height:30px;font-size:14px}
+  .combat-hand .card-role{top:8px;right:7px;padding:2px 4px;font-size:8px}
+  .combat-hand i{width:52px;height:52px;margin:13px auto 2px;border-width:3px;font-size:30px}
+  .combat-hand .card-name{margin-bottom:2px;padding:4px 2px;font-size:15px}
+  .combat-hand em{min-height:27px;padding:2px 1px 0;font-size:9px;line-height:1.2}
+}
+
+/*
+ * 모바일의 '동작 줄이기' 설정에서도 전투 결과를 놓치지 않게 한다.
+ * 기존 전역 reduced-motion 규칙은 모든 애니메이션을 0.01초로 끝내는데,
+ * 전투 효과의 마지막 키프레임은 투명도 0이라 로그만 남는 문제가 있었다.
+ * 움직임은 줄이되, 공격·피격·방어의 결과 프레임은 상태가 바뀔 때까지
+ * 정적으로 유지한다. v2의 모바일 전장처럼 효과 레이어를 전투원 위에
+ * 분리해 카드 패널에 가려지지 않도록 한다.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .battlefield .fighter { overflow: visible; isolation: isolate; }
+  .battle-damage-pop,
+  .boss-impact-flash,
+  .battlefield .fighter.hero.player-effect::after,
+  .battlefield .fighter.boss.confusion-burst::before,
+  .wrong-pop,
+  .confusion-questions { animation: none !important; opacity: 1; }
+  .battle-damage-pop { transform: translate(-50%, -12px); }
+  .boss-impact-flash.physical { transform: rotate(-35deg) scale(1); }
+  .boss-impact-flash.magic,
+  .battlefield .fighter.hero.player-effect::after,
+  .battlefield .fighter.boss.confusion-burst::before { transform: translateX(-50%) scale(1); }
+  .battlefield .fighter.boss.impact.physical-impact img { animation: none !important; filter: brightness(1.75) saturate(.55); }
+  .battlefield .fighter.boss.impact.magic-impact img { animation: none !important; filter: brightness(1.7) drop-shadow(0 0 18px #76e8ff); }
+  .battlefield .fighter.hero:has(.player-hit) img { animation: none !important; filter: brightness(1.8) saturate(.45); }
+}
+
+/* 세로 모바일: 짧은 조작 버튼은 한 줄을 유지하고, 긴 규칙 버튼만 단독 행으로 둔다. */
+@media (max-width: 660px) and (orientation: portrait) {
+  .battle-page button { word-break: keep-all; overflow-wrap: normal; }
+  .action-panel .action-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .action-panel .action-controls > button { min-width: 0; padding-inline: 7px; font-size: clamp(11px, 3.15vw, 13px); line-height: 1.15; white-space: nowrap; }
+  .action-panel .card-draw-rules { grid-column: 1 / -1; }
+  .combat-header > button { min-width: max-content; white-space: nowrap; }
+  .battlefield .fighter { overflow: visible; isolation: isolate; }
+  .battle-damage-pop { z-index: 12; font-size: clamp(18px, 5.2vw, 24px); }
+  .boss-impact-flash { z-index: 11; }
+}
+
+.tower-intro-backdrop{position:fixed;z-index:40;inset:0;display:grid;place-items:center;padding:20px;background:#050817c9;backdrop-filter:blur(5px)}
+.tower-intro{width:min(480px,100%);padding:20px;border:3px solid #9eb5ff;background:linear-gradient(145deg,#172653,#0a1030);box-shadow:8px 10px 0 #02040f;color:#fff;text-align:center}
+.tower-floor-label{display:inline-flex;align-items:baseline;justify-content:center;gap:8px;margin:0 0 14px!important;padding:7px 16px;border:2px solid #b6ff72;background:#152b4f;color:#d9ffc1;box-shadow:3px 3px 0 #050714;font-weight:1000;line-height:1}.tower-floor-label span{font-size:15px;letter-spacing:.04em}.tower-floor-label b{color:#a8ff5c;font-size:27px;letter-spacing:-.04em}.tower-intro header{display:flex;align-items:center;gap:12px;text-align:left}.tower-intro header img{width:82px;height:82px;object-fit:contain}.tower-intro header small{color:#b7c9ff;font-weight:800}.tower-intro h2{margin:2px 0;font-size:25px}.tower-intro-quiz-types{display:grid;justify-items:center;gap:6px;margin:14px 0 8px}.tower-intro-quiz-types>strong{color:#ffe16f;font-size:16px}.tower-intro-quiz-types>div{display:flex;justify-content:center;flex-wrap:wrap;gap:5px 8px}.tower-intro-quiz-types span{color:#fff;font-size:15px;font-weight:900;line-height:1.35}.tower-intro-quiz-types span+span::before{margin-right:8px;color:#91a6e6;content:"·"}.tower-intro>p{margin:0 0 16px;line-height:1.55}.tower-intro button{width:100%;padding:11px;border:2px solid #fff2b4;background:#c42b70;color:#fff;font-weight:1000}
+
+/* 도전의 탑은 캠페인과 분리된 런형 보상 선택을 제공한다. */
+.tower-upgrade-page{display:grid;min-height:100dvh;place-items:center;padding:20px;background:radial-gradient(circle at 50% 20%,#4548ab 0,#111537 42%,#070817 100%);color:#fff}.tower-upgrade-page>section{width:min(720px,100%);border:3px solid #aebeff;background:linear-gradient(145deg,#202c65,#0b1030);padding:clamp(18px,4vw,34px);box-shadow:9px 10px 0 #03040f;text-align:center}.tower-upgrade-page .eyebrow{margin:0;color:#a8ff67;font-size:12px;font-weight:1000;letter-spacing:.08em}.tower-upgrade-page h1{margin:7px 0;color:#fff2ad;font-size:clamp(26px,5vw,42px)}.tower-upgrade-page>section>p:not(.eyebrow){margin:0 auto 16px;max-width:480px;color:#d8e4ff;font-size:14px;font-weight:750;line-height:1.55}.tower-run-summary{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:0 0 18px}.tower-run-summary span{border:1px solid #8fa6e6;background:#111a43;padding:7px 10px;color:#d8e4ff;font-size:12px;font-weight:800}.tower-run-summary b{color:#aaff60}.tower-upgrade-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.tower-upgrade-grid button{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px;border:3px solid #b8c6ff;background:linear-gradient(145deg,#344d91,#1b275d);padding:14px;color:#fff;text-align:left;box-shadow:4px 5px 0 #050714}.tower-upgrade-grid button:hover{transform:translate(-2px,-2px);border-color:#b3ff68;background:#405bab;box-shadow:6px 7px 0 #050714}.tower-upgrade-grid i{grid-row:1 / span 2;display:grid;place-items:center;width:42px;height:42px;border:2px solid #f7e184;background:#2c1d5a;color:#fff199;font-size:23px;font-style:normal}.tower-upgrade-grid strong{font-size:16px}.tower-upgrade-grid small{color:#d7e2ff;font-size:12px;font-weight:750;line-height:1.35}@media(max-width:560px){.tower-upgrade-page{padding:12px}.tower-upgrade-grid{grid-template-columns:1fr;gap:9px}.tower-upgrade-grid button{padding:11px}.tower-upgrade-page>section{padding:18px 14px}}
+.tower-upgrade-grid button:disabled{cursor:not-allowed;filter:grayscale(.65);opacity:.5;transform:none;box-shadow:2px 3px 0 #050714}.tower-upgrade-grid strong em{margin-left:5px;color:#b8ff72;font-size:11px;font-style:normal}.tower-shop-continue{width:100%;margin-top:16px;border:3px solid #fff1aa;background:#c42b70;color:#fff;padding:13px;font-size:16px;font-weight:1000;box-shadow:4px 5px 0 #050714}.tower-shop-continue:hover{transform:translate(-1px,-1px);box-shadow:6px 7px 0 #050714}.tower-gear-earned{display:grid;grid-template-columns:46px 1fr;gap:10px;align-items:center;margin:14px auto;border:3px solid #d7ff73;background:linear-gradient(135deg,#203d54,#14233c);padding:10px;text-align:left;color:#fff}.tower-gear-earned>i{display:grid;place-items:center;width:42px;height:42px;border:2px solid #fff4b3;background:#2b6e73;color:#fff3a3;font-size:23px;font-style:normal}.tower-gear-earned span{display:grid;gap:2px}.tower-gear-earned small,.tower-gear-earned em{color:#c7e5d3;font-size:11px;font-style:normal;font-weight:800}.tower-gear-earned strong{color:#d7ff73;font-size:18px}
+.tower-gear-reveal{display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:center;margin:14px auto;border:3px solid #ffe174;background:linear-gradient(135deg,#65451b,#212348);padding:10px;text-align:left;color:#fff;box-shadow:4px 4px 0 #050715}.tower-gear-reveal>i{display:grid;place-items:center;width:44px;height:44px;border:2px solid #fff3b5;background:#a46625;color:#fff7bf;font-size:24px;font-style:normal}.tower-gear-reveal>div{display:grid;gap:2px}.tower-gear-reveal small,.tower-gear-reveal em{color:#fff0b2;font-size:11px;font-style:normal;font-weight:800}.tower-gear-reveal strong{color:#fff;font-size:18px}.tower-gear-reveal button{border:2px solid #fff3b5;background:#c42b70;color:#fff;padding:9px 11px;font-weight:1000;box-shadow:3px 3px 0 #050715}.tower-gear-reveal.opened{animation:tower-gear-arrival .48s cubic-bezier(.2,1.45,.45,1) both}.tower-gear-reveal.opened>i{animation:tower-gear-spin .72s ease-out both}
+.tower-shop-feedback{margin:-6px auto 14px!important;border:2px solid #b8ff72;background:#183e45;color:#d9ffbd!important;padding:8px 10px;font-size:13px!important;font-weight:1000!important}
+.tower-shop-recommendation{grid-column:2;display:block;margin-top:3px;color:#b8ff72;font-size:10px;font-style:normal;font-weight:850;line-height:1.35}.tower-upgrade-grid button:disabled .tower-shop-recommendation{color:#aeb6c8}.tower-gear-earned{animation:tower-gear-arrival .48s cubic-bezier(.2,1.45,.45,1) both}.tower-gear-earned>i{animation:tower-gear-spin .72s ease-out both}@keyframes tower-gear-arrival{from{opacity:0;transform:translateY(-18px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes tower-gear-spin{from{transform:rotate(-80deg) scale(.35)}to{transform:rotate(0) scale(1)}}@media(prefers-reduced-motion:reduce){.tower-gear-earned,.tower-gear-earned>i{animation:none}}
+.tower-final-boss{position:absolute;right:-7px;bottom:-14px;width:92px;height:92px;object-fit:contain;filter:drop-shadow(3px 4px 0 #26070d)}.tower-shop-confirm-backdrop{position:absolute;z-index:5;inset:0;display:grid;place-items:center;padding:16px;background:#060817cc;backdrop-filter:blur(3px)}.tower-shop-confirm{width:min(360px,100%);border:3px solid #fff0a8;background:linear-gradient(145deg,#273b79,#101634);box-shadow:7px 8px 0 #03040f;padding:20px;color:#fff;text-align:center}.tower-shop-confirm p{margin:0;color:#b8ff72;font-size:12px;font-weight:1000}.tower-shop-confirm h2{margin:8px 0;font-size:23px}.tower-shop-confirm>span{color:#d7e2ff;font-size:13px;font-weight:750}.tower-shop-confirm>div{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}.tower-shop-confirm button{border:2px solid #d5e1ff;background:#273966;color:#fff;padding:10px;font-weight:1000}.tower-shop-confirm button:last-child{border-color:#fff1a9;background:#c42b70}.tower-gear-earned.milestone{border-color:#ffe174;background:linear-gradient(135deg,#65451b,#212348)}.tower-gear-earned.milestone>i{border-color:#fff3b5;background:#a46625;color:#fff7bf}
+.tower-upgrade-page{position:relative;overflow:hidden;background:linear-gradient(180deg,#090d2aaa 0%,#070817e8 100%),url("/story-backgrounds/stage-5-central-signal-room-v1.webp");background-size:cover;background-position:center}.tower-upgrade-page::before{position:absolute;inset:0;content:"";pointer-events:none;background:repeating-linear-gradient(90deg,transparent 0 84px,#80a3ff0c 84px 88px),linear-gradient(90deg,#070817b8,transparent 24%,transparent 76%,#070817b8)}.tower-upgrade-page>section{position:relative;overflow:hidden}.tower-upgrade-page>section::after{position:absolute;inset:7px;content:"";pointer-events:none;border:1px solid #7e96de55}.tower-shop-scene{position:relative;z-index:1;display:grid;grid-template-columns:74px 98px minmax(0,1fr);gap:12px;align-items:center;margin:-8px 0 12px;text-align:left}.tower-shop-scene>img{width:94px;height:94px;object-fit:contain;filter:drop-shadow(4px 5px 0 #050714)}.tower-shop-scene h1{margin:3px 0!important;font-size:clamp(24px,4.2vw,37px)!important}.tower-shop-scene small{display:block;color:#c9d7ff;font-size:12px;font-weight:800;line-height:1.45}.tower-gear-chest{position:relative;align-self:end;width:64px;height:52px;margin:0 auto 10px;border:3px solid #ffe58b;background:linear-gradient(135deg,#af7225 0 45%,#e3ad4c 46% 55%,#78441f 56%);box-shadow:4px 5px 0 #050714}.tower-gear-chest::before{position:absolute;z-index:1;top:-12px;left:-4px;width:66px;height:16px;border:3px solid #ffe58b;border-bottom:0;background:#cd8930;content:""}.tower-gear-chest i{position:absolute;z-index:2;top:10px;left:19px;color:#fff2a7;font-size:22px;font-style:normal;line-height:1;text-shadow:2px 2px #58301a}.tower-gear-chest span{position:absolute;z-index:3;width:6px;height:6px;background:#f5f8ba;box-shadow:0 0 10px #dcff69}.tower-gear-chest span:first-of-type{top:-20px;right:-8px}.tower-gear-chest span:last-of-type{top:-9px;left:-14px;width:4px;height:4px}.tower-upgrade-grid button[data-upgrade] i{position:relative;overflow:hidden;border-color:#e7f3ff;background:linear-gradient(135deg,#314d8a,#17234f);font-size:0}.tower-upgrade-grid button[data-upgrade] i::before,.tower-upgrade-grid button[data-upgrade] i::after{position:absolute;display:grid;place-items:center;content:""}.tower-upgrade-grid button[data-upgrade="max-hp"] i::before{width:24px;height:24px;background:#ff668c;clip-path:polygon(50% 88%,7% 48%,7% 22%,25% 8%,50% 22%,75% 8%,93% 22%,93% 48%);box-shadow:0 0 0 2px #ffd8e2}.tower-upgrade-grid button[data-upgrade="max-hp"] i::after{width:16px;height:4px;background:#fff;box-shadow:6px -6px #fff,6px 6px #fff}.tower-upgrade-grid button[data-upgrade="full-heal"] i::before{width:25px;height:25px;border:4px solid #9ff5f2;border-left-color:transparent;border-radius:50%}.tower-upgrade-grid button[data-upgrade="full-heal"] i::after{top:8px;right:6px;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:10px solid #9ff5f2}.tower-upgrade-grid button[data-upgrade="attack"] i::before{width:7px;height:29px;background:#ffe772;transform:rotate(45deg);box-shadow:0 0 0 2px #c48f25}.tower-upgrade-grid button[data-upgrade="attack"] i::after{bottom:7px;left:10px;width:23px;height:7px;border:3px solid #ffe772;background:#c48f25;transform:rotate(45deg)}.tower-upgrade-grid button[data-upgrade="defense"] i::before{width:27px;height:30px;background:#76d8ff;clip-path:polygon(50% 0,93% 16%,84% 72%,50% 100%,16% 72%,7% 16%);box-shadow:0 0 0 2px #1a6ca4}.tower-upgrade-grid button[data-upgrade="defense"] i::after{width:14px;height:6px;border-bottom:4px solid #fff;border-left:4px solid #fff;transform:rotate(-45deg) translate(1px,-2px)}.final-tune-up{background-image:linear-gradient(180deg,#34121ab8 0%,#09060ce8 100%),url("/story-backgrounds/stage-5-central-signal-room-v1.webp")}.final-tune-up>section{border-color:#ffd77b;background:linear-gradient(145deg,#59283a,#210d26)}.final-tune-up .tower-shop-scene .eyebrow{color:#ffd77b}.final-tune-up .tower-shop-continue{background:#b63947}
+@media(max-width:560px){.tower-shop-scene{grid-template-columns:58px 70px minmax(0,1fr);gap:8px;margin-top:0}.tower-shop-scene>img{width:70px;height:70px}.tower-gear-chest{transform:scale(.78);transform-origin:center bottom}.tower-shop-scene h1{font-size:24px!important}.tower-shop-scene small{font-size:10px}.tower-upgrade-page>section>p:not(.eyebrow){font-size:13px}}
+
+/* 전투 로그는 v2처럼 항상 발견 가능하고, 기록의 맥락을 한눈에 읽을 수 있게 한다. */
+.combat-header-actions { display: flex; justify-self: end; gap: 6px; }
+.combat-header-actions button { border: 2px solid #c8d5ff; background: #294473; color: #fff; padding: 9px 12px; font-size: 12px; font-weight: 900; white-space: nowrap; }
+.combat-header-actions button:first-child { background: #3b4f86; color: var(--lime); }
+.battle-log-modal h2 span { color: var(--lime); font-size: .68em; }
+.battle-log-modal li > div { display: grid; gap: 2px; min-width: 0; }
+.battle-log-meta { color: #aebfff; font-size: 10px; font-weight: 1000; letter-spacing: .04em; }
+.battle-log-modal li strong { color: #fff; font-size: 14px; line-height: 1.3; }
+.battle-log-modal li small { color: #d7e2ff; font-size: 12px; font-weight: 800; line-height: 1.35; }
+.empty-battle-log { margin: 16px 0; border: 2px dashed #7180b8; background: #17224b; color: #c8d5ff; padding: 18px 14px; font-size: 13px; font-weight: 800; line-height: 1.5; text-align: center; }
+.quiz-rule { grid-template-columns: auto minmax(0, 1fr); }
+.quiz-rule > div { display: grid; gap: 2px; min-width: 0; }
+.quiz-rule > div small { color: #526b9c; font-size: 10px; font-weight: 900; }
+.quiz-rule > div strong { font-size: 13px; line-height: 1.25; }
+.quiz-rule > div span { color: #354b82; font-size: 12px; font-weight: 800; line-height: 1.3; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.quiz-continue { display: block; width: 100%; margin-top: 10px; border: 2px solid var(--ink); background: var(--lime); box-shadow: 3px 3px 0 var(--ink); padding: 9px 12px; color: var(--ink); font-weight: 1000; }
+.card-preview { position: relative; z-index: 1; display: block; min-height: 26px; margin-top: 5px; padding: 4px; border-top: 1px solid #ffffff88; color: #fffbe2; font-size: 10px; font-weight: 900; line-height: 1.2; }
+
+/* 낮은 화면에서도 정답 확인과 전투 이동 버튼을 모달 안에서 끝까지 볼 수 있게 한다. */
+.quiz-modal-backdrop { padding: 12px; }
+.quiz-modal { max-height: calc(100dvh - 24px); overflow-y: auto; overscroll-behavior: contain; }
+@media (max-height: 800px) {
+  .quiz-modal { padding: 14px; }
+  .quiz-modal h1 { margin: 10px auto 6px; font-size: clamp(20px, 3vw, 28px); }
+  .quiz-modal > p { margin-bottom: 10px; }
+  .quiz-options { gap: 7px; }
+  .quiz-options.short button { min-height: 56px; }
+  .quiz-options.long button { min-height: 42px; padding: 8px 10px; }
+  .quiz-feedback { margin-top: 8px; min-height: 0; }
+  .quiz-continue { position: sticky; bottom: 0; margin-top: 7px; }
+}
+
+@media (max-width: 660px) {
+  .combat-header > span { display: none; }
+  .combat-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .combat-stats .detail-stat { display: none; }
+  .combat-stats > div { min-width: 0; padding: 7px 5px; }
+  .combat-stats strong { font-size: 14px; white-space: nowrap; }
+  .bag-stat > button { padding: 6px 3px; }
+  .combat-header-actions { grid-column: 1 / -1; justify-self: stretch; }
+  .combat-header-actions button { flex: 1; padding: 7px 6px; font-size: 11px; }
+  .battle-log-modal li { grid-template-columns: 25px minmax(0, 1fr); padding: 8px; }
+  .battle-log-modal li strong { font-size: 13px; }
+  .battle-log-modal li small { font-size: 11px; }
+}
+
+/* 태블릿·데스크톱은 고정 zoom 대신 각 요소의 실제 크기를 조절한다. */
+@media (min-width: 901px) and (max-width: 1180px) and (min-height: 601px) {
+  .battle-page { padding: 8px 16px 16px; }
+  .combat-header { max-width: 1100px; height: 52px; padding: 0 12px; }
+  .combat-header > strong { font-size: 14px; }
+  .combat-stats { max-width: 1100px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .combat-stats > div { padding: 6px 9px; }
+  .combat-stats strong { font-size: 16px; }
+  .battlefield { max-width: 1100px; height: 300px; padding: 12px 42px; }
+  .battlefield .fighter img { width: 168px; height: 168px; }
+  .battlefield .fighter-name { width: 164px; }
+  .turn-energy { min-width: 150px; padding: 9px; }
+  .turn-energy strong { font-size: 34px; }
+  .action-panel { max-width: 1100px; padding: 12px 14px; }
+  .combat-hand { gap: 9px; margin-top: 12px; }
+  .combat-hand > button { min-height: 172px; padding: 9px 6px; }
+  .combat-hand i { font-size: 42px; }
+}
+
+@media (min-width: 1181px) {
+  .battlefield { height: 360px; }
+  .battlefield .fighter img { width: 210px; height: 210px; }
+  .combat-hand > button { min-height: 205px; }
+}
+
+/* 데스크톱은 브라우저 배율 대신 사용 가능한 세로 높이에 맞춰 전투 영역을 압축한다.
+   모바일·태블릿 규칙과 분리해, 넓은 화면에서만 카드 끝이 첫 화면 안에 들어오게 한다. */
+@media (min-width: 1181px) and (min-height: 760px) {
+  .battle-page {
+    --battle-gap: clamp(6px, .85dvh, 11px);
+    min-height: 100dvh;
+    padding: var(--battle-gap) clamp(16px, 2vw, 40px) calc(var(--battle-gap) * 1.5);
+  }
+  .combat-header { height: clamp(48px, 5.3dvh, 58px); padding: 0 clamp(11px, 1.1vw, 16px); }
+  .combat-stats > div { padding: clamp(6px, .75dvh, 8px) clamp(8px, .9vw, 12px); }
+  .battlefield {
+    height: clamp(280px, 33dvh, 356px);
+    min-height: 280px;
+    margin-top: var(--battle-gap);
+    padding: clamp(9px, 1.3dvh, 14px) clamp(38px, 5vw, 70px);
+  }
+  .battlefield .fighter img { width: clamp(165px, 19dvh, 205px); height: clamp(165px, 19dvh, 205px); }
+  .battlefield .fighter-name { width: clamp(178px, 15vw, 220px); padding: clamp(7px, .85dvh, 9px); }
+  .turn-energy { min-width: clamp(174px, 16vw, 205px); padding: clamp(8px, 1dvh, 11px); }
+  .turn-energy strong { font-size: clamp(36px, 4.3dvh, 44px); }
+  .battle-message { margin: calc(var(--battle-gap) * -0.7) auto var(--battle-gap); padding: 7px 12px; }
+  .action-panel { padding: clamp(10px, 1.1dvh, 14px) clamp(14px, 1.4vw, 20px); }
+  .combat-hand { gap: clamp(9px, .9vw, 14px); margin-top: clamp(9px, 1.1dvh, 14px); }
+  .combat-hand > button { min-height: clamp(178px, 19dvh, 202px); padding: clamp(9px, 1dvh, 13px) 8px 9px; }
+  .combat-hand i { font-size: clamp(42px, 4.9dvh, 54px); }
+  .combat-hand strong { font-size: clamp(16px, 1.2vw, 18px); }
+  .card-preview { min-height: 0; margin-top: 3px; padding: 3px; font-size: clamp(9px, 1dvh, 10px); }
+}
+
+/* v2와 같이 가로·낮은 높이 화면에서는 전투 전체를 별도 밀도로 압축한다. */
+@media (orientation: landscape) and (max-height: 600px) and (max-width: 1440px) {
+  .battle-page { min-height: 100svh; padding: 6px 10px 10px; }
+  .combat-header { max-width: 960px; height: auto; min-height: 36px; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 5px 10px; box-shadow: 4px 4px 0 #050715; }
+  .combat-header > strong { overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+  .combat-header > span { display: none; }
+  .combat-header-actions { grid-column: 2; justify-self: end; gap: 5px; }
+  .combat-header-actions button { padding: 5px 7px; font-size: 10px; }
+  .combat-stats { max-width: 960px; }
+  .combat-stats > div { min-height: 44px; padding: 4px 7px; }
+  .combat-stats span { font-size: 9px; }
+  .combat-stats strong { font-size: 14px; }
+  .bag-stat > button { min-height: 44px; padding: 4px 7px; }
+  .battlefield { max-width: 960px; min-height: 225px; height: 225px; grid-template-columns: minmax(100px, 1fr) minmax(220px, 1.6fr) minmax(100px, 1fr); padding: 12px 14px 16px; }
+  .battlefield .fighter img { width: 112px; height: 112px; }
+  .battlefield .fighter-name { width: 128px; padding: 6px; }
+  .fighter-name strong { font-size: 13px; }
+  .fighter-name .fighter-hp-row small { font-size: 11px; }
+  .fighter-stance { padding: 2px 5px; font-size: 8px; }
+  .turn-energy { min-width: 118px; padding: 7px 12px; }
+  .turn-energy strong { font-size: 26px; }
+  .turn-energy i { font-size: 11px; }
+  .turn-energy span, .turn-energy small { font-size: 9px; }
+  .battle-message { width: min(320px, calc(100% - 230px)); margin: -6px auto 6px; padding: 5px 8px; font-size: 10px; transform: none; }
+  .action-panel { max-width: 960px; padding: 9px 12px 11px; }
+  .action-panel > header { align-items: center; flex-direction: row; gap: 8px; }
+  .action-panel > header p { font-size: 9px; }
+  .action-panel > header strong { font-size: 11px; }
+  .action-panel .action-controls { width: auto; flex-wrap: nowrap; }
+  .action-panel .action-controls > button { min-height: 32px; padding: 5px 7px; font-size: 10px; white-space: nowrap; }
+  .combat-hand { display: flex; gap: 7px; overflow-x: auto; margin-top: 8px; padding-bottom: 4px; }
+  .combat-hand > button, .combat-hand > button:last-child { flex: 0 0 116px; min-height: 126px; padding: 6px 3px; }
+  .combat-hand i { width: 38px; height: 38px; margin: 5px 0; font-size: 22px; }
+  .combat-hand .card-name { font-size: 12px; }
+  .combat-hand em { min-height: 22px; font-size: 9px; }
+  .battle-log-modal { max-height: calc(100svh - 22px); padding: 14px; }
+}
+
+/* 데스크톱 모험 준비 화면도 전투와 같은 방식으로 화면 높이에 맞춘다.
+   고정 배율을 적용하지 않고, 넓은 화면에서는 기존 구성의 약 90% 밀도로 유지한다. */
+@media (min-width: 661px) {
+  .setup-page { padding: clamp(12px, 1.6dvh, 20px) clamp(14px, 3vw, 38px); }
+  .setup-shell { width: min(90%, clamp(760px, 90vw, 1008px)); }
+}
+
+@media (min-width: 661px) and (min-height: 601px) {
+  .topbar { padding: clamp(10px, 1.35dvh, 14px) clamp(14px, 1.8vw, 20px); }
+  .topbar h1 { font-size: clamp(20px, 2.1dvh, 22px); }
+  .setup-block { padding: clamp(14px, 1.8dvh, 18px) clamp(18px, 2.4vw, 25px); }
+  .section-title { gap: clamp(9px, 1vw, 11px); margin-bottom: clamp(10px, 1.3dvh, 13px); }
+  .section-title > b { width: clamp(36px, 4dvh, 40px); height: clamp(36px, 4dvh, 40px); }
+  .section-title h2 { font-size: clamp(18px, 2dvh, 20px); }
+  .character-grid, .stage-grid, .difficulty-grid { gap: clamp(9px, 1vw, 11px); }
+  .character-grid button, .stage-grid button, .difficulty-grid button { padding: clamp(10px, 1.25dvh, 11px); }
+  .character-grid img { width: clamp(52px, 6.5dvh, 58px); height: clamp(52px, 6.5dvh, 58px); }
+  .stage-grid button { min-height: clamp(78px, 10.5dvh, 88px); }
+  .stage-grid span { margin-bottom: clamp(6px, .8dvh, 8px); }
+  .setup-summary { padding: clamp(14px, 1.6dvh, 16px) clamp(18px, 2.4vw, 25px); }
+}
+
+/* 큰 데스크톱 전투: 전장·손패를 실제 화면 높이의 약 90% 밀도로 조절한다. */
+@media (min-width: 1181px) and (min-height: 760px) {
+  .combat-header { height: clamp(44px, 4.8dvh, 52px); }
+  .battlefield {
+    height: clamp(252px, 30dvh, 320px);
+    min-height: 252px;
+    padding: clamp(8px, 1.1dvh, 12px) clamp(34px, 4.5vw, 63px);
+  }
+  .battlefield .fighter img { width: clamp(150px, 17dvh, 185px); height: clamp(150px, 17dvh, 185px); }
+  .battlefield .fighter-name { width: clamp(166px, 13.5vw, 198px); }
+  .turn-energy { min-width: clamp(158px, 14.5vw, 185px); padding: clamp(7px, .9dvh, 10px); }
+  .turn-energy strong { font-size: clamp(32px, 3.9dvh, 40px); }
+  .combat-hand > button { min-height: clamp(160px, 17dvh, 182px); }
+  .combat-hand i { font-size: clamp(38px, 4.4dvh, 48px); }
+}
+
+/* 휴대폰 세로에서도 전투 맥락을 잃지 않고, 짧은 화면은 한 단계 더 압축한다. */
+@media (max-width: 660px) and (orientation: portrait) {
+  .combat-header > span {
+    display: block;
+    grid-column: 1;
+    min-width: 0;
+    overflow: hidden;
+    color: #d7e2ff;
+    font-size: 10px;
+    line-height: 1.25;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .combat-header-actions { grid-column: 2; justify-self: end; gap: 4px; }
+  .combat-header-actions button { flex: none; padding: 6px 5px; font-size: 10px; }
+  .hand-heading > p::after { content: " · 좌우로 밀어보기 ↔"; color: #b8c8ff; font-size: 9px; }
+}
+
+@media (max-width: 660px) and (max-height: 700px) and (orientation: portrait) {
+  .battle-page { padding-bottom: 12px; }
+  .battlefield { min-height: 292px; padding: 8px 6px 10px; }
+  .battlefield .fighter img { width: 110px; height: 110px; }
+  .battlefield .fighter-name { width: min(100%, 132px); padding: 6px; }
+  .turn-energy { min-width: 124px; padding: 6px 9px; }
+  .turn-energy strong { font-size: 29px; }
+  .action-panel { padding: 10px 8px; }
+  .combat-hand { margin-top: 9px; padding-bottom: 10px; }
+  .combat-hand > button, .combat-hand > button:last-child { flex-basis: 118px; min-height: 158px; }
+}
+
+/* 모바일 세로 상태 바: 전투에 필요한 다섯 정보를 같은 비중으로 표시한다. */
+@media (max-width: 660px) and (orientation: portrait) {
+  .combat-stats { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .combat-stats .detail-stat { display: block; }
+  .combat-stats > div { min-width: 0; padding: 6px 3px; }
+  .combat-stats span { overflow: hidden; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+  .combat-stats strong { font-size: 14px; white-space: nowrap; }
+  .bag-stat > button { min-height: 0; padding: 6px 3px; text-align: center; }
+  .bag-stat > button strong { font-size: 14px; white-space: nowrap; }
+  .bag-stat > button b { width: 16px; height: 16px; margin-left: 2px; font-size: 10px; }
+}
+
+/* 한국어 어절과 수량 단위가 카드·문제 제목에서 어색하게 분리되지 않도록 한다. */
+.quiz-modal h1{word-break:keep-all;overflow-wrap:normal;text-wrap:balance}
+.quiz-options button{word-break:keep-all;overflow-wrap:normal}
+
+/* 식 보기는 긴 결과값도 카드 안에서 끝까지 읽을 수 있도록 최소 폭을 확보한다. */
+.quiz-options.short.equation{grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))}
+.quiz-options.short.equation button{padding-inline:8px;font-size:clamp(18px,1.7vw,24px);line-height:1.15;white-space:normal}
+@media (max-width:900px){
+  .quiz-options.short.equation{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .quiz-options.short.equation button{font-size:clamp(15px,4vw,24px)}
+}
+
+/* 탑 전장: 양쪽 전투원을 중앙 쪽으로 모아 공통 전장의 빈 공간을 줄인다. */
+@media (min-width:901px){
+  .battle-page.tower-battle .battlefield{padding-inline:clamp(110px,9vw,140px)}
+  .battle-page.tower-battle .turn-energy{min-width:184px;padding:10px}
+}
