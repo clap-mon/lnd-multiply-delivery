@@ -135,7 +135,7 @@ html.enemy-turn .phase-banner{display:none}
 @keyframes card-deal-in{from{opacity:0;transform:translateY(44px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
 .battle-message{width:min(720px,calc(100% - 440px));min-height:25px;transform:translateY(-75px);line-height:1.45;text-wrap:balance}
 @media(max-width:900px){.battle-message{width:min(620px,calc(100% - 40px));transform:translateY(-50px)}.hero-stance{top:-18px;font-size:10px;padding:3px 7px}.fighter-name .boss-stance{font-size:10px}}
-.combat-hand>button:not(:disabled){transition:transform .14s ease,filter .14s ease,box-shadow .14s ease}.combat-hand>button:not(:disabled):hover{transform:translateY(-10px) rotate(-1deg);filter:brightness(1.08);box-shadow:8px 12px 0 #050715}.combat-hand>button:not(:disabled):active{animation:card-strike .34s ease-out}.battlefield .fighter.hero img{animation:hero-idle 2.4s ease-in-out infinite}.battlefield .fighter.boss img{animation:boss-idle 2.8s ease-in-out infinite}.turn-energy.active{animation:energy-pulse 1.1s ease-in-out infinite}.phase-banner{animation:enemy-arrival .38s ease-out}.quiz-options button.correct{animation:correct-flash .48s ease-out}.quiz-options button.wrong{animation:wrong-shake .42s ease-in-out}@keyframes hero-idle{50%{transform:translateY(-7px)}}@keyframes boss-idle{50%{transform:translateY(-10px) scale(1.025)}}@keyframes energy-pulse{50%{box-shadow:0 0 0 8px #b9ff6a33,7px 7px 0 #07091b}}@keyframes card-strike{35%{transform:translateY(-18px) scale(1.04) rotate(2deg)}100%{transform:translateY(0)}}@keyframes enemy-arrival{0%{transform:translate(-50%,-30%) scale(.88);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}@keyframes correct-flash{50%{transform:scale(1.05);filter:brightness(1.2)}}@keyframes wrong-shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+.combat-hand>button:not(:disabled){transition:transform .14s ease,filter .14s ease,box-shadow .14s ease}.combat-hand>button:not(:disabled):hover{transform:translateY(-10px) rotate(-1deg);filter:brightness(1.08);box-shadow:8px 12px 0 #050715}.combat-hand>button:not(:disabled):active{animation:card-strike .34s ease-out}.battlefield .fighter.hero img{animation:hero-idle 2.4s ease-in-out infinite}.battlefield .fighter.boss img{animation:boss-idle 2.8s ease-in-out infinite}.turn-energy.active{animation:energy-pulse 1.1s ease-in-out infinite}.phase-banner{animation:enemy-arrival .38s ease-out}.quiz-options button.correct{animation:correct-flash .48s ease-out}.quiz-options button.wrong{animation:wrong-shake .42s ease-in-out}@keyframes hero-idle{50%{transform:translateY(-7px)}}@keyframes boss-idle{50%{transform:translateY(-10px) scale(1.025)}}@keyframes energy-pulse{50%{box-shadow:0 0 0 8px #b9ff6a33,7px 7px 0 #07091b}}@keyframes card-strike{35%{transform:translateY(-18px) scale(1.04) rotate(2deg)}100%{transform:translateY(0)}}@keyframes enemy-arrival{0%{transform:translate(-50%,-30%) scale(.88);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}@keyframes correct-flash{50%{transform:scale(1.05);filter:brightness(1.2)}}@keyframes wrong-shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}@media (prefers-reduced-motion: reduce){.landing-page *,.setup-page *,.dialogue-page *,.result-page *,.ending-page *,.landing-page *::before,.setup-page *::before,.dialogue-page *::before,.result-page *::before,.ending-page *::before,.landing-page *::after,.setup-page *::after,.dialogue-page *::after,.result-page *::after,.ending-page *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 
 /* 전투 카드는 비용 → 역할 → 핵심 수치 → 효과 순서로 빠르게 읽히게 한다. */
 .combat-hand>button{grid-template-rows:auto 1fr auto auto;gap:2px;border-color:#07091b;background-image:none!important;box-shadow:7px 7px 0 #050715}
@@ -339,24 +339,6 @@ html.enemy-turn .phase-banner{display:none}
  * 정적으로 유지한다. v2의 모바일 전장처럼 효과 레이어를 전투원 위에
  * 분리해 카드 패널에 가려지지 않도록 한다.
  */
-@media (prefers-reduced-motion: reduce) {
-  .battlefield .fighter { overflow: visible; isolation: isolate; }
-  .battle-damage-pop,
-  .boss-impact-flash,
-  .battlefield .fighter.hero.player-effect::after,
-  .battlefield .fighter.boss.confusion-burst::before,
-  .wrong-pop,
-  .confusion-questions { animation: none !important; opacity: 1; }
-  .battle-damage-pop { transform: translate(-50%, -12px); }
-  .boss-impact-flash.physical { transform: rotate(-35deg) scale(1); }
-  .boss-impact-flash.magic,
-  .battlefield .fighter.hero.player-effect::after,
-  .battlefield .fighter.boss.confusion-burst::before { transform: translateX(-50%) scale(1); }
-  .battlefield .fighter.boss.impact.physical-impact img { animation: none !important; filter: brightness(1.75) saturate(.55); }
-  .battlefield .fighter.boss.impact.magic-impact img { animation: none !important; filter: brightness(1.7) drop-shadow(0 0 18px #76e8ff); }
-  .battlefield .fighter.hero:has(.player-hit) img { animation: none !important; filter: brightness(1.8) saturate(.45); }
-}
-
 /* 세로 모바일: 짧은 조작 버튼은 한 줄을 유지하고, 긴 규칙 버튼만 단독 행으로 둔다. */
 @media (max-width: 660px) and (orientation: portrait) {
   .battle-page button { word-break: keep-all; overflow-wrap: normal; }
